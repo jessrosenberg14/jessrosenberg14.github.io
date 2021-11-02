@@ -12,9 +12,7 @@ output:
 Add some text
 
 
-# Here's a subsection
-
-And here's some additional text
+<img src= "images/IMG_9006.jpeg" style = "width:75%">
 
 [About me](about.html)
 
