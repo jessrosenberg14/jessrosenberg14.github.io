@@ -12,7 +12,7 @@ output:
 Add some text
 
 
-<img src= "images/IMG_9006.jpeg" style = "width:75%">
+<img src= "images/jess.jpg" style = "width:75%">
 
 [About me](about.html)
 
