@@ -16,13 +16,6 @@ Add some text
 
 And here's some additional text
 
-# Links
-
-* [Google](https://www.google.com)
-* [P8105](https://www.p8105.com)
-
-# Link to page within the site
-
 [About me](about.html)
 
 # This is a new section
