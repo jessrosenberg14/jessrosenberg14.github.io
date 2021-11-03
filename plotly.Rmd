@@ -12,6 +12,7 @@ library(p8105.datasets)
 library(plotly)
 library(leaflet)
 library(tidygeocoder)
+library(ggridges)
 ```
 
 Filtering NYC restaurant data to include only critical flags with grades of B and C.
@@ -26,5 +27,29 @@ nycrest =
   drop_na(grade) %>%
   filter(grade %in% c("C")) 
 ```
+
+```{r}
+nycrest2 =
+nycrest %>%
+    mutate(address = str_c(building, " " , street, " New York, NY", " ", zipcode))
+
+addresses = 
+  nycrest2 %>%
+  geocode(address = address, method = "census", verbose = TRUE)
+
+addresses2 =
+  addresses %>%
+  drop_na(lat)
+```
+
+```{r, eval=FALSE}
+pal = colorNumeric("viridis", NULL)
+
+addresses2 %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(~long, ~lat, radius = 1, color = ~pal(score))
+```
+
 
 
