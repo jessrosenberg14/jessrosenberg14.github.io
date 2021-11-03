@@ -32,15 +32,17 @@ str_suffix = "New York, NY"
 
 nyrest2 =
 nycrest %>%
-    mutate(street = str_c(street, " NY, NY"))
+    mutate(address = str_c(building, street, " New York, NY"))
 
 census_s1 = 
   nyrest2 %>%
-  geocode(address = street, method = "census", verbose = TRUE)
+  geocode(address = street, " " , method = "census", verbose = TRUE)
+
+unique(pull(nycrest, street))
 ```
 
 ```{r}
-nycrest %>%
+census_s1 %>%
   sample_n(1000) %>%
   leaflet() %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
