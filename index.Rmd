@@ -7,15 +7,15 @@ output:
     toc_float: true
 ---
 
-# This is Jess's website
+# Jess
 
-Add some text
+I am a current MPH student stuyding Epidemiology and Biostatistics, with a particular interest in reproductive health and addressing health disparities. 
 
 
-<img src= "images/IMG_9006.jpg" style = "height:50%">
+<img src= "images/IMG_3180.jpg" style = "width:75%">
+
+# My Background
 
 [About me](about.html)
 
-# This is a new section
 
-and it's really great

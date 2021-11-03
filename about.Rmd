@@ -7,6 +7,8 @@ output:
     toc_float: true
 ---
 
+# Columbia University Mailman School of Public Health 
+
 I am currently a second year Master of Public Health student in the [Epidemiology Department](https://www.publichealth.columbia.edu/academics/departments/epidemiology) at the [Columbia University Mailman School of Public Health](https://www.publichealth.columbia.edu/). I am pursuing a Certificate in [Applied Biostatistics and Public Health Data Science](https://www.publichealth.columbia.edu/academics/degrees/master-public-health/certificates/applied-biostatistics-and-public-health-data-science).
 
 <img src= "images/mailman.png" style = "height:50%">
@@ -15,6 +17,24 @@ At Mailman, I currently work as a Research Assistant in for the [Global Health J
 
 This past summer, I conducted data analysis on data from a recent contraceptive clinical trial in collaboration with [Dr. Carolyn Westhoff](https://www.publichealth.columbia.edu/people/our-faculty/clw3). I also worked with [Gynuity Health Projects](https://gynuity.org/) conducting data anlaysis on their [TelAbortion Study](https://telabortion.org/). I will conduct my Masters Thesis using this same data.
 
-Prior to pursuing my MPH at Columbia, I lived and worked in Boston. During this time, I worked for two years as a Research Associate at [Optum Epidemiology](https://www.optum.com/business/solutions/life-sciences/epidemiology.html). Prior to working at Optum, I worked as a Development Research Assistant at [Boston Medical Center](https://www.bmc.org/), New England's largest safety net hospital. Aside from my professional positions, I served on the leadership board for [Boston Young Healthcare Professionals](https://byhp.org/) and volunteered with [Planned Parenthood League of Massachusetts](https://www.plannedparenthood.org/planned-parenthood-massachusetts).    
+# Optum Epidemiology
+
+Prior to pursuing my MPH at Columbia, I lived and worked in Boston. During this time, I worked for two years as a Research Associate at [Optum Epidemiology](https://www.optum.com/business/solutions/life-sciences/epidemiology.html). 
+
+# Boston Medical Center 
+
+Prior to working at Optum, I worked as a Development Research Assistant at [Boston Medical Center](https://www.bmc.org/), New England's largest safety net hospital. 
+
+# Nonprofit Board Experience 
+
+Aside from my professional positions, I served on the leadership board for [Boston Young Healthcare Professionals](https://byhp.org/) and volunteered with [Planned Parenthood League of Massachusetts](https://www.plannedparenthood.org/planned-parenthood-massachusetts).   
+
+# Teaching Assistant Program in France 
+
+Before starting at Boston Medical Center in 2017, I worked in Gassin, France as an English Teaching Assistant as part of the [TAPIF Program](https://frenchhighereducation.org/teaching-assistant-program). 
+
+# Washington University in St. Louis 
+
+I graduated from [Washington University in St. Louis](https://wustl.edu/) in 2016 where I pursued a double major in [Anthropology of Global Health and the Environment](https://anthropology.wustl.edu/major-and-minor#anchor-group-11425) and [French](https://rll.wustl.edu/french#spotlight) as well as a Minor in [American Culture Studies](https://amcs.wustl.edu/undergraduate) with a Concentration in The Construction of Race and Ethnicity in American Life.  
 
 
