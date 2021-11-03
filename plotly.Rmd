@@ -14,5 +14,15 @@ library(plotly)
 
 ```{r}
 data("rest_inspec")
+
+nycrest =
+  rest_inspec %>%
+  filter(critical_flag %in% c("Critical", "Not Critical"))
+
+  
+
+unique(pull(rest_inspec, grade))
+table(pull(rest_inspec, critical_flag))
+
 ```
 
