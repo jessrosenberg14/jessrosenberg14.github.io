@@ -10,8 +10,11 @@ output:
 library(tidyverse)
 library(p8105.datasets)
 library(plotly)
+library(leaflet)
+library(tidygeocoder)
 ```
 
+Filtering NYC restaurant data to include only critical flags with grades of B and C.
 ```{r}
 data("rest_inspec")
 
@@ -21,22 +24,26 @@ nycrest =
   filter(boro == "MANHATTAN") %>%
   drop_na(score) %>%
   drop_na(grade) %>%
-  filter(grade %in% c("A","B","C")) %>%
-  filter(inspection_type %in% c("Cycle Inspection / Re-inspection",
-                                "Cycle Inspection / Initial Inspection")) %>%
-  filter(action %in% c("Violations were cited in the following area(s)."))
-  
-  
+  filter(grade %in% c("B","C"))
+```
+Add NY, NY to address
+```{r}
+str_suffix = "New York, NY"
 
-  
+nyrest2 =
+nycrest %>%
+    mutate(street = str_c(street, " NY, NY"))
 
-unique(pull(rest_inspec, grade))
-table(pull(rest_inspec, critical_flag))
-table(pull(rest_inspec, boro))
-table(pull(rest_inspec, grade))
-table(pull(nycrest, critical_flag))
-table(pull(nycrest, grade))
-unique(pull(nycrest,inspection_type))
-unique(pull(nycrest,action))
+census_s1 = 
+  nyrest2 %>%
+  geocode(address = street, method = "census", verbose = TRUE)
+```
+
+```{r}
+nycrest %>%
+  sample_n(1000) %>%
+  leaflet() %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addCircleMarkers(~lat, ~long, radius = 1, color = ~pal(price))
 ```
 
