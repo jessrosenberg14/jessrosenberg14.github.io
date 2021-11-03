@@ -17,12 +17,19 @@ data("rest_inspec")
 
 nycrest =
   rest_inspec %>%
-  filter(critical_flag %in% c("Critical", "Not Critical"))
+  filter(critical_flag %in% c("Critical", "Not Critical")) %>%
+  filter(boro == "MANHATTAN") %>%
+  drop_na(score) %>%
+  drop_na(grade) %>%
+  filter(grade %in% c("A", "B", "C"))
+  
+  
 
   
 
 unique(pull(rest_inspec, grade))
 table(pull(rest_inspec, critical_flag))
-
+table(pull(rest_inspec, boro))
+table(pull(rest_inspec, grade))
 ```
 
