@@ -24,28 +24,7 @@ nycrest =
   filter(boro == "MANHATTAN") %>%
   drop_na(score) %>%
   drop_na(grade) %>%
-  filter(grade %in% c("B","C"))
-```
-Add NY, NY to address
-```{r}
-str_suffix = "New York, NY"
-
-nyrest2 =
-nycrest %>%
-    mutate(address = str_c(building, " " , street, " New York, NY"))
-
-census_s1 = 
-  nyrest2 %>%
-  geocode(address = address, method = "census", verbose = TRUE)
-
-unique(pull(nycrest, street))
+  filter(grade %in% c("C")) 
 ```
 
-```{r}
-census_s1 %>%
-  sample_n(1000) %>%
-  leaflet() %>%
-  addProviderTiles(providers$CartoDB.Positron) %>%
-  addCircleMarkers(~lat, ~long, radius = 1, color = ~pal(price))
-```
 

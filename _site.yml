@@ -9,6 +9,8 @@ navbar:
       href: mailto:<you@youremail.com>
     - icon: fa-github fa-lg
       href: http://github.com/jessrosenberg14/
+    - icon: fab fa-linkedin
+      href: https://www.linkedin.com/in/jessicadrosenberg/ 
 output:
   html_document:
     theme: yeti
