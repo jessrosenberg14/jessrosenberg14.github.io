@@ -9,7 +9,4 @@ output:
 
 # This page has information about me
 
-[Academic History](academic.html)
-
-
-[Professional History](professional.html)
+[Academic and Professional History](academic.html)
