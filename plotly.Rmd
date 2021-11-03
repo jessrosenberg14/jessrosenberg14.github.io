@@ -17,11 +17,14 @@ data("rest_inspec")
 
 nycrest =
   rest_inspec %>%
-  filter(critical_flag %in% c("Critical", "Not Critical")) %>%
+  filter(critical_flag %in% c("Critical")) %>%
   filter(boro == "MANHATTAN") %>%
   drop_na(score) %>%
   drop_na(grade) %>%
-  filter(grade %in% c("A", "B", "C"))
+  filter(grade %in% c("A","B","C")) %>%
+  filter(inspection_type %in% c("Cycle Inspection / Re-inspection",
+                                "Cycle Inspection / Initial Inspection")) %>%
+  filter(action %in% c("Violations were cited in the following area(s)."))
   
   
 
@@ -31,5 +34,9 @@ unique(pull(rest_inspec, grade))
 table(pull(rest_inspec, critical_flag))
 table(pull(rest_inspec, boro))
 table(pull(rest_inspec, grade))
+table(pull(nycrest, critical_flag))
+table(pull(nycrest, grade))
+unique(pull(nycrest,inspection_type))
+unique(pull(nycrest,action))
 ```
 
