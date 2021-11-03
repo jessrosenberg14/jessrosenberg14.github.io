@@ -7,6 +7,8 @@ output:
     toc_float: true
 ---
 
-I am a second year Master of Public Health student in the Department of Epidemiology at the Columbia University Mailman School of Public Health. I am pursuing a certificate in Applied Biostatistics and Public Health Data Science. I anticipate receiving my MPH in May 2022.
+I am a second year Master of Public Health student at the Columbia University Mailman School of Public Health. I anticipate receiving my MPH in May 2022.
+
+<img src= "images/mailman.png" style = "height:50%">
 
 [Academic and Professional History](academic.html)

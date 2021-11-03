@@ -7,3 +7,8 @@ output:
     toc_float: true
 ---
 
+# Academic History
+
+## Columbia University Mailman School of Public Health 
+
+# Professional History

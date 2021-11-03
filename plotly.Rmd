@@ -32,11 +32,11 @@ str_suffix = "New York, NY"
 
 nyrest2 =
 nycrest %>%
-    mutate(address = str_c(building, street, " New York, NY"))
+    mutate(address = str_c(building, " " , street, " New York, NY"))
 
 census_s1 = 
   nyrest2 %>%
-  geocode(address = street, " " , method = "census", verbose = TRUE)
+  geocode(address = address, method = "census", verbose = TRUE)
 
 unique(pull(nycrest, street))
 ```
