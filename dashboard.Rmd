@@ -75,7 +75,7 @@ time =
 Row {data-width=650}
 -----------------------------------------------------------------------
 
-### Map of Restaurants in the Bronx by Inspection Grade
+### Sample of Restaurants in the Bronx by Inspection Grade
 
 ```{r, message=FALSE}
 pal = colorFactor("viridis", NULL)
