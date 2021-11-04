@@ -17,6 +17,16 @@ library(ggridges)
 
 restaurants_df = read_csv("geocodedfile.csv")
 
+cuisinerating =
+  rest_inspec %>%
+  group_by(camis) %>%
+  slice(which.max(as.Date(inspection_date, "%Y-%m-%d", tz = "America/New_York"))) %>%
+  filter(boro == "MANHATTAN") %>%
+  drop_na(score) %>%
+  drop_na(grade) %>%
+  filter(cuisine_description != "Not Listed/Not Applicable") %>%
+  group_by(cuisine_description) %>%
+  summarise(avg_score = round(mean(score),0))
 ```
 
 Column {data-width=650}
@@ -43,7 +53,14 @@ Column {data-width=350}
 ### Chart B
 
 ```{r}
-
+cuisinerating  %>%
+plot_ly(
+    x = ~cuisine_description, y = ~avg_score, type = "scatter", mode = "markers",
+    color = ~avg_score, alpha = 0.5) %>%
+    layout(title = list(text = "Average Most Recent Inspection Score by Cuisine Type in Manhattan", 
+                        xanchor = 'center', yanchor =  'top', size = 8),
+           yaxis = list(title = list(text = "Average Score")), 
+           xaxis = list(title = list(text = "Cuisine Description"), showticklabels = FALSE))
 ```
 
 ### Chart C
