@@ -8,10 +8,15 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-library(flexdashboard)
 library(tidyverse)
 library(p8105.datasets)
 library(plotly)
+library(leaflet)
+library(tidygeocoder)
+library(ggridges)
+
+restaurants_df = read_csv("geocodedfile.csv")
+
 ```
 
 Column {data-width=650}
@@ -20,7 +25,15 @@ Column {data-width=650}
 ### Chart A
 
 ```{r}
+pal = colorFactor("viridis", NULL)
 
+restaurants_df %>%
+  leaflet() %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addCircleMarkers(~long, ~lat, radius = 1, color = ~pal(grade), popup = ~restaurant_name) %>%
+    addLegend("bottomright", pal = pal, values = ~grade,
+    title = "Restaurant Grade",
+    opacity = 1)
 ```
 
 
