@@ -2,8 +2,6 @@
 title: "Plotly"
 output: 
   html_document:
-    toc: true
-    toc_float: true
 ---
 
 ```{r}
@@ -76,13 +74,16 @@ cuisinerating =
 ## Presenting a scatterplot displaying average inspection score by cuisine type in Manhattan
 
 ```{r}
+cuisineplot =
 cuisinerating  %>%
 plot_ly(
-    x = ~cuisine_description, y = ~avg_score, type = "scatter", mode = "markers",
-    color = ~avg_score, alpha = 0.5) %>%
+    x = ~cuisine_description, y = ~avg_score, type = "scatter", mode = "markers", size = 0.3,
+                             color = ~avg_score, alpha = 0.9)  %>%
     layout(yaxis = list(title = list(text = "Average Score")), 
            xaxis = list(title = list(text = "Cuisine Description"), 
                         showticklabels = FALSE))
+
+colorbar(cuisineplot, title = "Average Score") 
 ```
 
 Filtering the dataset to include the most recent inspections by restaurant and only grades A, B and C. 

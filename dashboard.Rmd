@@ -96,13 +96,16 @@ Row {.tabset}
 ### Average Most Recent Inspection Score by Cuisine Type in Manhattan
 
 ```{r, message=FALSE}
+cuisineplot =
 cuisinerating  %>%
 plot_ly(
-    x = ~cuisine_description, y = ~avg_score, type = "scatter", mode = "markers",
-    color = ~avg_score, alpha = 0.5) %>%
+    x = ~cuisine_description, y = ~avg_score, type = "scatter", mode = "markers", size = 0.3,
+                             color = ~avg_score, alpha = 0.9)  %>%
     layout(yaxis = list(title = list(text = "Average Score")), 
-           xaxis = list(title = list(text = "Cuisine Description"), showticklabels =
-                        FALSE))
+           xaxis = list(title = list(text = "Cuisine Description"), 
+                        showticklabels = FALSE))
+
+colorbar(cuisineplot, title = "Average Score") 
 ```
 
 ### Count of Inspection Grades Received by NYC Borough
