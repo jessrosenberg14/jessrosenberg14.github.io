@@ -15,17 +15,18 @@ library(tidygeocoder)
 library(ggridges)
 ```
 
-Filtering NYC restaurant data to include only critical flags with grades of B and C.
+Filtering NYC restaurant data to include only restaurants in Bronx and only inspections that are the most recent for a particular restaurant. 
 ```{r}
 data("rest_inspec")
-
 nycrest =
   rest_inspec %>%
-  filter(critical_flag %in% c("Critical")) %>%
-  filter(boro == "MANHATTAN") %>%
+  group_by(camis) %>%
+  slice(which.max(as.Date(inspection_date, "%Y-%m-%d", tz = "America/New_York"))) %>%
+  filter(boro == "BRONX") %>%
   drop_na(score) %>%
   drop_na(grade) %>%
-  filter(grade %in% c("C")) 
+  filter(critical_flag %in% c("Critical", "Not Critical")) %>%
+  filter(grade %in% c("A", "B", "C"))
 ```
 
 ```{r}
@@ -39,17 +40,31 @@ addresses =
 
 addresses2 =
   addresses %>%
-  drop_na(lat)
+  drop_na(lat) %>%
+  mutate(restaurant_name = dba)
 ```
 
 ```{r, eval=FALSE}
-pal = colorNumeric("viridis", NULL)
+pal = colorFactor("viridis", NULL)
 
 addresses2 %>%
   leaflet() %>%
-  addTiles() %>%
-  addCircleMarkers(~long, ~lat, radius = 1, color = ~pal(score))
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addCircleMarkers(~long, ~lat, radius = 1, color = ~pal(grade), popup = ~restaurant_name) %>%
+    addLegend("bottomright", pal = pal, values = ~grade,
+    title = "Restaurant Grade",
+    opacity = 1)
+  
 ```
+
+```{r}
+addresses2 %>%
+  
+plot_ly(
+    x = ~lat, y = ~long, type = "scatter", mode = "markers",
+    color = ~grade, text = ~text_label, alpha = 0.5)
+```
+
 
 
 

@@ -2,20 +2,13 @@
 title: "Jess Rosenberg"
 output: 
   html_document:
-    toc: true
     code_folding: hide
-    toc_float: true
 ---
-
-# Jess
 
 I am a current MPH student stuyding Epidemiology and Biostatistics, with a particular interest in reproductive health and addressing health disparities. 
 
-
 <img src= "images/IMG_3180.jpg" style = "width:75%">
 
-# My Background
-
-[About me](about.html)
+Learn more [about my academic and professional background](about.html) here.
 
 
