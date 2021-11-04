@@ -27,29 +27,38 @@ nycrest =
   drop_na(grade) %>%
   filter(critical_flag %in% c("Critical", "Not Critical")) %>%
   filter(grade %in% c("A", "B", "C"))
+
+nycrest2 =
+nycrest %>%
+    mutate(address = str_c(building, " " , street, " New York, NY", " ", zipcode))
+
+addresses = 
+  nycrest2 %>%
+  geocode(address = address, method = "census", verbose = TRUE)
+
+addresses2_df =
+  addresses %>%
+  drop_na(lat) %>%
+  mutate(restaurant_name = dba)
 ```
 
+# Map
+
 ```{r, eval=FALSE}
-restaurants_df = read_csv("geocodedfile.csv")
 
 pal = colorFactor("viridis", NULL)
 
-restaurants_df %>%
+addresses2_df %>%
   leaflet() %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
   addCircleMarkers(~long, ~lat, radius = 1, color = ~pal(grade), popup = ~restaurant_name) %>%
     addLegend("bottomright", pal = pal, values = ~grade,
     title = "Restaurant Grade",
     opacity = 1)
-  
 ```
 
 Filtering dataset to include only most recent inspection date and restaurants only in Manhattan. 
 ```{r}
-data("rest_inspec")
-
-unique(pull(rest_inspec, violation_code))
-
 cuisinerating =
   rest_inspec %>%
   group_by(camis) %>%

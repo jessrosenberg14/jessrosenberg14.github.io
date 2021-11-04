@@ -15,7 +15,29 @@ library(leaflet)
 library(tidygeocoder)
 library(ggridges)
 
-restaurants_df = read_csv("geocodedfile.csv")
+data("rest_inspec")
+nycrest =
+  rest_inspec %>%
+  group_by(camis) %>%
+  slice(which.max(as.Date(inspection_date, "%Y-%m-%d", tz = "America/New_York"))) %>%
+  filter(boro == "BRONX") %>%
+  drop_na(score) %>%
+  drop_na(grade) %>%
+  filter(critical_flag %in% c("Critical", "Not Critical")) %>%
+  filter(grade %in% c("A", "B", "C"))
+
+nycrest2 =
+nycrest %>%
+    mutate(address = str_c(building, " " , street, " New York, NY", " ", zipcode))
+
+addresses = 
+  nycrest2 %>%
+  geocode(address = address, method = "census", verbose = TRUE)
+
+addresses2_df =
+  addresses %>%
+  drop_na(lat) %>%
+  mutate(restaurant_name = dba)
 
 cuisinerating =
   rest_inspec %>%
