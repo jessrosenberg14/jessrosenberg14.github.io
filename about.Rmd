@@ -40,7 +40,7 @@ Before starting at Boston Medical Center in 2017, I worked in Gassin, France as 
 
 # Washington University in St. Louis 
 
-<img src= "images/washu.jpeg" style = "height:50%">
+<img src= "images/washu.jpg" style = "height:50%">
 
 I graduated from [Washington University in St. Louis](https://wustl.edu/) in 2016 where I pursued a double major in [Anthropology of Global Health and the Environment](https://anthropology.wustl.edu/major-and-minor#anchor-group-11425) and [French](https://rll.wustl.edu/french#spotlight) as well as a Minor in [American Culture Studies](https://amcs.wustl.edu/undergraduate) with a Concentration in The Construction of Race and Ethnicity in American Life.
 
