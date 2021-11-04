@@ -72,10 +72,10 @@ time =
   mutate(name = str_c(building, " ", street)) 
 ```
 
-Column {data-width=650}
+{data-width=650}
 -----------------------------------------------------------------------
 
-### Chart A
+### Map of Restaurants in the Bronx by Inspection Grade
 
 ```{r}
 pal = colorFactor("viridis", NULL)
@@ -93,32 +93,29 @@ restaurants_df %>%
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart B
+### Average Most Recent Inspection Score by Cuisine Type in Manhattan
 
 ```{r}
 cuisinerating  %>%
 plot_ly(
     x = ~cuisine_description, y = ~avg_score, type = "scatter", mode = "markers",
     color = ~avg_score, alpha = 0.5) %>%
-    layout(title = list(text = "Average Most Recent Inspection Score by Cuisine Type in Manhattan", 
-                        xanchor = 'center', yanchor =  'top', size = 8),
-           yaxis = list(title = list(text = "Average Score")), 
-           xaxis = list(title = list(text = "Cuisine Description"), showticklabels = FALSE))
+    layout(yaxis = list(title = list(text = "Average Score")), 
+           xaxis = list(title = list(text = "Cuisine Description"), showticklabels =
+                        FALSE))
 ```
 
-### Chart C
+### Count of Inspection Grades Received by NYC Borough
 
 ```{r}
 gradeboro %>% 
   plot_ly(x = ~grade, y = ~count_grade, color = ~boro, type = "bar", colors = "viridis",
           facet_col = "boro") %>%
-  layout(title = list(text = "Count of Inspection Grades Received by Borough", 
-                        xanchor = 'center', yanchor =  'top', size = 8),
-           yaxis = list(title = list(text = "Count")), 
-           xaxis = list(title = list(text = "Grade")))
+  layout(yaxis = list(title = list(text = "Count")), 
+        xaxis = list(title = list(text = "Grade")))
 ```
 
-### Chart D
+### Inspection Grades Received Over Time Among Au Bon Pain Locations in Manhattan 
 
 ```{r}
 time  %>%
@@ -126,7 +123,5 @@ time  %>%
     x = ~inspection_date, y = ~score,
     type = "scatter",color = ~name, mode = "lines+markers", colors = "viridis") %>%
      layout(yaxis = list(title = list(text = "Score Received")), 
-           xaxis = list(title = list(text = "Inspection Date")),
-           title = list(text = "Inspection Grades Received Over Time Among Manhattan Au Bon Pains", 
-                        xanchor = 'center', yanchor =  'top', size = 8))
+           xaxis = list(title = list(text = "Inspection Date")))
 ```
