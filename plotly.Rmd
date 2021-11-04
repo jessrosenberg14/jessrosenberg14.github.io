@@ -48,6 +48,8 @@ Filtering dataset to include only most recent inspection date and restaurants on
 ```{r}
 data("rest_inspec")
 
+unique(pull(rest_inspec, violation_code))
+
 cuisinerating =
   rest_inspec %>%
   group_by(camis) %>%
@@ -58,8 +60,6 @@ cuisinerating =
   filter(cuisine_description != "Not Listed/Not Applicable") %>%
   group_by(cuisine_description) %>%
   summarise(avg_score = round(mean(score),0))
-
-unique(pull(cuisinerating, cuisine_description))
 ```
 
 ## Make a scatterplot
@@ -77,5 +77,24 @@ plot_ly(
            xaxis = list(title = list(text = "Cuisine Description"), showticklabels = FALSE))
 ```
 
+```{r}
+gradeboro =
+  rest_inspec %>%
+  group_by(camis) %>%
+  slice(which.max(as.Date(inspection_date, "%Y-%m-%d", tz = "America/New_York"))) %>%
+  filter(grade %in% c("A","B","C")) %>%
+  drop_na(score) %>%
+  drop_na(grade) %>%
+  group_by(boro) %>%
+  count(grade, name = "count_grade")
+```
 
 
+## Barplot 
+
+```{r}
+nyc_airbnb %>% 
+  count(neighbourhood) %>% 
+  mutate(neighbourhood = fct_reorder(neighbourhood, n)) %>% 
+  plot_ly(x = ~neighbourhood, y = ~n, color = ~neighbourhood, type = "bar", colors = "viridis")
+```
