@@ -5,7 +5,7 @@ output:
     code_folding: hide
 ---
 
-I am a current MPH student stuyding Epidemiology and Biostatistics, with a particular interest in reproductive health and addressing health disparities. 
+I am a current Master of Public Health student stuyding Epidemiology and Biostatistics, with a particular interest in reproductive health and addressing health disparities. 
 
 <img src= "images/IMG_3180.jpg" style = "width:75%">
 
