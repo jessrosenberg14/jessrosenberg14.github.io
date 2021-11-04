@@ -15,7 +15,7 @@ library(tidygeocoder)
 library(ggridges)
 ```
 
-Filtering NYC restaurant data to include only restaurants in Bronx and only inspections that are the most recent for a particular restaurant. 
+Filtering NYC restaurant data to include only restaurants in the Bronx, the most recent inspections by restaurant, cases with a flag of Critical or Not Critical, and a grade of A, B or C. 
 ```{r}
 data("rest_inspec")
 
@@ -43,7 +43,7 @@ addresses2_df =
   mutate(restaurant_name = dba)
 ```
 
-# Bronx Restaurant Map
+# Presenting the Results in a Leaflet Map
 
 ```{r, eval=FALSE}
 
@@ -58,8 +58,9 @@ addresses2_df %>%
     opacity = 1)
 ```
 
-Filtering dataset to include only most recent inspection date and restaurants only in Manhattan. 
-```{r}
+Filtering the dataset to include only restaurants in Manhatta and the most recent inspections by restaurant.
+
+```{r, message=FALSE}
 cuisinerating =
   rest_inspec %>%
   group_by(camis) %>%
@@ -72,22 +73,21 @@ cuisinerating =
   summarise(avg_score = round(mean(score),0))
 ```
 
-## Make a scatterplot
-
-Here's a plotly scatterplot
+## Presenting a scatterplot displaying average inspection score by cuisine type in Manhattan
 
 ```{r}
 cuisinerating  %>%
 plot_ly(
     x = ~cuisine_description, y = ~avg_score, type = "scatter", mode = "markers",
     color = ~avg_score, alpha = 0.5) %>%
-    layout(title = list(text = "Average Most Recent Inspection Score by Cuisine Type in Manhattan", 
-                        xanchor = 'center', yanchor =  'top', size = 8),
-           yaxis = list(title = list(text = "Average Score")), 
-           xaxis = list(title = list(text = "Cuisine Description"), showticklabels = FALSE))
+    layout(yaxis = list(title = list(text = "Average Score")), 
+           xaxis = list(title = list(text = "Cuisine Description"), 
+                        showticklabels = FALSE))
 ```
 
-```{r}
+Filtering the dataset to include the most recent inspections by restaurant and only grades A, B and C. 
+
+```{r, message=FALSE}
 gradeboro =
   rest_inspec %>%
   group_by(camis) %>%
@@ -100,10 +100,9 @@ gradeboro =
   count(grade, name = "count_grade")
 ```
 
+## Presenting a bar graph displaying the count of A, B and C inspection grades received by NYC borough
 
-## Bar Graph 
-
-```{r}
+```{r, message=FALSE}
 gradeboro %>% 
   plot_ly(x = ~grade, y = ~count_grade, color = ~boro, type = "bar", colors = "viridis",
           facet_col = "boro") %>%
@@ -113,25 +112,9 @@ gradeboro %>%
            xaxis = list(title = list(text = "Grade")))
 ```
 
+Filtering the dataset to include only Au Bon Pain locations in Manhattan. 
 
-```{r}
-violations =
-  rest_inspec %>%
-  group_by(camis) %>%
-  slice(which.max(as.Date(inspection_date, "%Y-%m-%d", tz = "America/New_York"))) %>%
-  filter(grade %in% c("A","B","C")) %>%
-  drop_na(score) %>%
-  drop_na(grade) %>%
-  drop_na(violation_description) %>%
-  group_by(grade) %>%
-  count(violation_description, name = "violation_count")
-
-unique(pull(rest_inspec, violation_code))
-
-```
-
-Au Bon Pain Inspection Grades Over Time in Manhattan
-```{r}
+```{r, message=FALSE}
 time =
   rest_inspec %>%
   filter(grade %in% c("A","B","C")) %>%
@@ -144,16 +127,14 @@ time =
 
 ```
 
-## Line plot
+## Presenting a line graph displaying inspection scores over time by Au Bon Pain location in Manhattan
 
-```{r}
+```{r, message=FALSE}
 time  %>%
  plot_ly(
     x = ~inspection_date, y = ~score,
     type = "scatter",color = ~name, mode = "lines+markers", colors = "viridis") %>%
      layout(yaxis = list(title = list(text = "Score Received")), 
-           xaxis = list(title = list(text = "Inspection Date")),
-           title = list(text = "Inspection Grades Received Over Time Among Manhattan Au Bon Pains", 
-                        xanchor = 'center', yanchor =  'top', size = 8))
+           xaxis = list(title = list(text = "Inspection Date")))
 ```
 
