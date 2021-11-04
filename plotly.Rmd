@@ -18,6 +18,7 @@ library(ggridges)
 Filtering NYC restaurant data to include only restaurants in Bronx and only inspections that are the most recent for a particular restaurant. 
 ```{r}
 data("rest_inspec")
+
 nycrest =
   rest_inspec %>%
   group_by(camis) %>%
@@ -42,7 +43,7 @@ addresses2_df =
   mutate(restaurant_name = dba)
 ```
 
-# Map
+# Bronx Restaurant Map
 
 ```{r, eval=FALSE}
 
@@ -100,7 +101,7 @@ gradeboro =
 ```
 
 
-## Barplot 
+## Bar Graph 
 
 ```{r}
 gradeboro %>% 
@@ -111,3 +112,48 @@ gradeboro %>%
            yaxis = list(title = list(text = "Count")), 
            xaxis = list(title = list(text = "Grade")))
 ```
+
+
+```{r}
+violations =
+  rest_inspec %>%
+  group_by(camis) %>%
+  slice(which.max(as.Date(inspection_date, "%Y-%m-%d", tz = "America/New_York"))) %>%
+  filter(grade %in% c("A","B","C")) %>%
+  drop_na(score) %>%
+  drop_na(grade) %>%
+  drop_na(violation_description) %>%
+  group_by(grade) %>%
+  count(violation_description, name = "violation_count")
+
+unique(pull(rest_inspec, violation_code))
+
+```
+
+Au Bon Pain Inspection Grades Over Time in Manhattan
+```{r}
+time =
+  rest_inspec %>%
+  filter(grade %in% c("A","B","C")) %>%
+  filter(boro == "MANHATTAN") %>%
+  drop_na(score) %>%
+  drop_na(grade) %>%
+  filter(dba %in% c("AU BON PAIN")) %>%
+  arrange(inspection_date) %>%
+  mutate(name = str_c(building, " ", street)) 
+
+```
+
+## Line plot
+
+```{r}
+time  %>%
+ plot_ly(
+    x = ~inspection_date, y = ~score,
+    type = "scatter",color = ~name, mode = "lines+markers", colors = "viridis") %>%
+     layout(yaxis = list(title = list(text = "Score Received")), 
+           xaxis = list(title = list(text = "Inspection Date")),
+           title = list(text = "Inspection Grades Received Over Time Among Manhattan Au Bon Pains", 
+                        xanchor = 'center', yanchor =  'top', size = 8))
+```
+

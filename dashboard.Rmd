@@ -60,6 +60,16 @@ gradeboro =
   drop_na(grade) %>%
   group_by(boro) %>%
   count(grade, name = "count_grade")
+
+time =
+  rest_inspec %>%
+  filter(grade %in% c("A","B","C")) %>%
+  filter(boro == "MANHATTAN") %>%
+  drop_na(score) %>%
+  drop_na(grade) %>%
+  filter(dba %in% c("AU BON PAIN")) %>%
+  arrange(inspection_date) %>%
+  mutate(name = str_c(building, " ", street)) 
 ```
 
 Column {data-width=650}
@@ -111,5 +121,12 @@ gradeboro %>%
 ### Chart D
 
 ```{r}
-
+time  %>%
+ plot_ly(
+    x = ~inspection_date, y = ~score,
+    type = "scatter",color = ~name, mode = "lines+markers", colors = "viridis") %>%
+     layout(yaxis = list(title = list(text = "Score Received")), 
+           xaxis = list(title = list(text = "Inspection Date")),
+           title = list(text = "Inspection Grades Received Over Time Among Manhattan Au Bon Pains", 
+                        xanchor = 'center', yanchor =  'top', size = 8))
 ```
