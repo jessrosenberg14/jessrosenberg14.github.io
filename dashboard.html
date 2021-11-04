@@ -1,22 +1,33 @@
 <!DOCTYPE html>
-
-<html>
-
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
-<meta charset="utf-8" />
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-
 
 
 
 <title>Dashboard</title>
 
+<meta property="og:title" content="Dashboard" />
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+
+<link rel="icon" href="data:image/x-icon;" type="image/x-icon">
+
+
+<script type="text/javascript">
+window.FlexDashboardComponents = [];
+</script>
+
+<script id="flexdashboard-navbar" type="application/json">
+[{"title":"Source Code","icon":"fa-code","href":"source_embed","align":"right"}]
+</script>
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -29,9 +40,13 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/stickytableheaders-0.1.19/jquery.stickytableheaders.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/featherlight-1.3.5/featherlight.min.css" rel="stylesheet" />
+<script src="site_libs/featherlight-1.3.5/featherlight.min.js"></script>
+<link href="site_libs/prism-1.4.1/prism.css" rel="stylesheet" />
+<script src="site_libs/prism-1.4.1/prism.js"></script>
 <script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
@@ -42,192 +57,762 @@
 <script src="site_libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
 <script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
 <script src="site_libs/leaflet-providers-plugin-2.0.4.1/leaflet-providers-plugin.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
-
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
+/*
+ Dashboard CSS from Keen IO Dashboards
+ (https://github.com/keen/dashboards)
+*/
 
+body {
+  background: #f2f2f2;
+  padding: 60px 0 0 8px; /* padding-top overridden by theme */
+}
 
+body hr {
+  border-color: #d7d7d7;
+  margin: 10px 0;
+}
 
+.navbar-inverse .navbar-nav > li > a,
+.navbar .navbar-brand {
+  text-decoration: none;
+}
 
+.navbar-logo {
+  margin-top: 1px;
+}
 
+.navbar-logo img {
+  margin-right: 12px;
+}
 
-
-
-<style type = "text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-img {
-  max-width:100%;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-.html-widget {
-  margin-bottom: 20px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-summary {
-  display: list-item;
-}
-pre code {
-  padding: 0;
-}
-</style>
-
-
-<style type="text/css">
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #adb5bd;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
+.navbar-author {
   margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
+  font-size: 15px;
 }
-</style>
 
-<script type="text/javascript">
-// manage active state of menu based on current page
-$(document).ready(function () {
-  // active menu anchor
-  href = window.location.pathname
-  href = href.substr(href.lastIndexOf('/') + 1)
-  if (href === "")
-    href = "index.html";
-  var menuAnchor = $('a[href="' + href + '"]');
+.navbar .dropdown-menu .fa {
+  min-width: 20px;
+}
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
-
-  // Navbar adjustments
-  var navHeight = $(".navbar").first().height() + 15;
-  var style = document.createElement('style');
-  var pt = "padding-top: " + navHeight + "px; ";
-  var mt = "margin-top: -" + navHeight + "px; ";
-  var css = "";
-  // offset scroll position for anchor links (for fixed navbar)
-  for (var i = 1; i <= 6; i++) {
-    css += ".section h" + i + "{ " + pt + mt + "}\n";
-  }
-  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
-  document.head.appendChild(style);
-});
-</script>
-
-<!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
+.navbar .dropdown-menu {
+  min-width: 150px;
   max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  overflow: auto;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+.chart-wrapper,
+.nav-tabs-custom,
+.sbframe-commentary
+{
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  margin-right: 8px;
 }
 
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
+.chart-title {
+  border-bottom: 1px solid #d7d7d7;
+  color: #666;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 7px 10px 4px;
 }
 
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-  background-color: transparent;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
+.chart-wrapper .chart-title:empty {
   display: none;
 }
+
+.chart-wrapper .chart-stage {
+  overflow: hidden;
+  padding: 5px 10px;
+  position: relative;
+}
+
+.chart-wrapper .chart-notes {
+  background: #fbfbfb;
+  border-top: 1px solid #e2e2e2;
+  color: #808080;
+  font-size: 12px;
+  padding: 8px 10px 5px;
+}
+
+/*
+ CSS for handling flexbox layout
+*/
+
+#dashboard-container {
+  visibility: hidden;
+}
+
+.tab-content>.dashboard-page-wrapper.active {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.dashboard-page-wrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.dashboard-row-orientation {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.dashboard-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.dashboard-row-flex {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.dashboard-column-orientation {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.dashboard-column {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.chart-wrapper-flex {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.chart-stage-flex {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  position: relative;
+}
+
+.chart-shim {
+  position: absolute;
+  left: 8px; top: 8px; right: 8px; bottom: 8px;
+}
+
+.no-padding .chart-shim {
+  left: 0; top: 0; right: 0; bottom: 0;
+}
+
+.flowing-content-shim {
+  overflow: auto;
+  left: 0; top: 0; right: 0; bottom: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.flowing-content-container {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.chart-stage .table-bordered {
+  border: none;
+}
+
+.chart-stage .table-bordered > tbody > tr > th,
+.chart-stage .table-bordered > tfoot > tr > th,
+.chart-stage .table-bordered > tbody > tr > td,
+.chart-stage .table-bordered > tfoot > tr > td {
+  border: none;
+}
+
+.chart-stage .table-bordered > tbody > tr > td {
+  border-top: 1px solid #dddddd;
+}
+
+.chart-stage .table-bordered > thead > tr > th {
+  border: none;
+  border-bottom: 2px solid #dddddd;
+}
+
+.bootstrap-table table>thead {
+  background-color: #fff;
+}
+
+.bootstrap-table table.data,
+.bootstrap-table table.shiny-table {
+  width: inherit !important;
+}
+
+.bootstrap-table table.data>tbody>tr>th,
+.bootstrap-table table.shiny-table>tbody>tr>th {
+  border-top: none;
+  border-bottom: 2px solid #dddddd;
+  padding: 5px;
+}
+
+.bootstrap-table .data td[align=right] {
+  font-family: inherit;
+}
+
+.chart-wrapper form {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.shiny-input-container label {
+  font-weight: normal;
+}
+
+.chart-stage .html-widget {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.chart-stage .html-widget-static-bound {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.chart-stage .shiny-bound-output {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Omit display of empty paragraphs */
+
+.chart-shim>p:empty {
+  display: none;
+}
+
+.chart-stage>p:empty {
+  display: none;
+}
+
+/* Omit display of special knitr options div*/
+
+.chart-stage .knitr-options {
+  display: none;
+}
+
+/* Automatically resizing images */
+
+.image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+}
+
+.image-container img {
+  opacity: 0;
+  overflow: hidden;
+}
+
+/* Value box */
+
+.value-box {
+  border-radius: 2px;
+  position: relative;
+  display: block;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.value-box > .inner {
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.value-box .value {
+  font-size: 38px;
+  font-weight: bold;
+  margin: 0 0 3px 0;
+  white-space: nowrap;
+  padding: 0;
+}
+
+.value-box .caption {
+  font-size: 15px;
+}
+.value-box .caption > small {
+  display: block;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.value-box .icon i {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 80px;
+  color: rgba(0, 0, 0, 0.15);
+}
+
+.linked-value:hover {
+  cursor: pointer;
+}
+
+.value-box.linked-value:hover {
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* STORYBOARD */
+
+.storyboard-nav button {
+  background: transparent;
+  border: 0;
+  opacity: .3;
+  outline: none;
+  padding: 0;
+}
+
+.storyboard-nav button:hover,
+.storyboard-nav button:hover {
+  opacity: .5;
+}
+
+.storyboard-nav button:disabled,
+.storyboard-nav button:disabled {
+  opacity: .1;
+}
+
+.storyboard-nav .sbnext,
+.storyboard-nav .sbprev {
+  float: left;
+  width: 2%;
+  height: 120px;
+  font-size: 50px;
+}
+
+.storyboard-nav .sbprev {
+  text-align: left;
+  width: 2%;
+}
+
+.storyboard-nav .sbnext {
+  float: right;
+  text-align: right;
+  margin-right: 8px;
+}
+
+.storyboard-nav .sbframelist {
+  margin: 0 auto;
+  width: 94%;
+  height: 120px;
+  overflow: hidden;
+  text-shadow: none;
+  margin-bottom: 8px;
+}
+
+.storyboard-nav .sbframelist ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.storyboard-nav .sbframelist ul li {
+  float: left;
+  width: 270px;
+  height: 100%;
+  padding: 10px 10px 10px 10px;
+  margin-right: 8px;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 3px;
+  color: #3a3c47;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.storyboard-nav .sbframelist ul li:last-child {
+  margin-right: 0px;
+}
+
+.storyboard-nav .sbframelist ul li.active {
+  color: #fff;
+  background: #B8B8B8;
+}
+
+.sbframe-commentary {
+  width: 300px;
+  background: #fbfbfb;
+  font-size: 14px;
+}
+
+.sbframe-commentary ul {
+  padding-left: 22px;
+}
+
+.sbframe.active {
+  display: flex;
+}
+
+.sbframe:not(.active) {
+  display: none;
+}
+
+/* NAV TABS */
+
+.nav-tabs-custom > .nav-tabs {
+  margin: 0;
+  border-bottom: 1px solid #d7d7d7;
+  color: #666;
+  font-size: 14px;
+  font-weight: 300;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+.nav-tabs-custom > .nav-tabs > li {
+  border-top: 3px solid transparent;
+  margin-bottom: -1px;
+  margin-right: 5px;
+}
+.nav-tabs-custom > .nav-tabs > li > a,
+.nav-tabs-custom > .nav-tabs > li > a:active {
+  color: #666;
+  font-weight: 300;
+  font-size: 14px;
+  border-radius: 0;
+  padding: 3px 10px 5px;
+  text-transform: none;
+}
+
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a {
+  border-bottom-color: transparent;
+}
+
+.nav-tabs-custom > .nav-tabs > li > a.text-muted {
+  color: #999;
+}
+.nav-tabs-custom > .nav-tabs > li > a,
+.nav-tabs-custom > .nav-tabs > li > a:hover {
+  background: transparent;
+  margin: 0;
+}
+.nav-tabs-custom > .nav-tabs > li > a:hover {
+  color: #999;
+}
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a:hover,
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a:focus,
+.nav-tabs-custom > .nav-tabs > li:not(.active) > a:active {
+  border-color: transparent;
+}
+.nav-tabs-custom > .nav-tabs > li.active {
+  border-top-color: #3c8dbc;
+}
+.nav-tabs-custom > .nav-tabs > li.active > a,
+.nav-tabs-custom > .nav-tabs > li.active:hover > a {
+  background-color: #fff;
+  color: #666;
+}
+.nav-tabs-custom > .nav-tabs > li.active > a {
+  border-top-color: transparent;
+  border-left-color: #d7d7d7;
+  border-right-color: #d7d7d7;
+}
+.nav-tabs-custom > .nav-tabs > li:first-of-type {
+  margin-left: 0;
+}
+.nav-tabs-custom > .nav-tabs > li:first-of-type.active > a {
+  border-left-color: transparent;
+}
+.nav-tabs-custom > .nav-tabs.pull-right {
+  float: none !important;
+}
+.nav-tabs-custom > .nav-tabs.pull-right > li {
+  float: right;
+}
+.nav-tabs-custom > .nav-tabs.pull-right > li:first-of-type {
+  margin-right: 0;
+}
+.nav-tabs-custom > .nav-tabs.pull-right > li:first-of-type > a {
+  border-left-width: 1px;
+}
+.nav-tabs-custom > .nav-tabs.pull-right > li:first-of-type.active > a {
+  border-left-color: #d7d7d7;
+  border-right-color: transparent;
+}
+.nav-tabs-custom > .nav-tabs > li.header {
+  line-height: 35px;
+  padding: 0 10px;
+  font-size: 20px;
+  color: #666;
+}
+.nav-tabs-custom > .nav-tabs > li.header > .fa,
+.nav-tabs-custom > .nav-tabs > li.header > .glyphicon,
+.nav-tabs-custom > .nav-tabs > li.header > .ion {
+  margin-right: 5px;
+}
+.nav-tabs-custom > .tab-content {
+  background: #fff;
+  padding: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.nav-tabs-custom > .tab-content > .chart-wrapper {
+  background: #fff;
+  border: none;
+  margin: 0;
+}
+
+
+.nav-tabs-custom > .tab-content > .active {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.nav-tabs-custom .dropdown.open > a:active,
+.nav-tabs-custom .dropdown.open > a:focus {
+  background: transparent;
+  color: #999;
+}
+
+
+@media (max-width: 767px) {
+  .value-box {
+    text-align: center;
+    margin-right: 8px;
+  }
+  .value-box .icon {
+    display: none;
+  }
+}
+
+/* Fixed position sidebar */
+
+.section.sidebar {
+  position: fixed;
+  top: 51px; /* overridden by theme */
+  left: 0;
+  bottom: 0;
+  border-right: 1px solid #e2e2e2;
+  background-color: white; /* overridden by theme */
+  padding-left: 10px;
+  padding-right: 10px;
+  visibility: hidden;
+  overflow: auto;
+}
+
+.section.sidebar form p:first-child {
+  margin-top: 10px;
+}
+
+/* Embedded source code */
+
+#flexdashboard-source-code {
+  display: none;
+}
+
+.featherlight-content #flexdashboard-source-code {
+  display: inline-block;
+}
+
+.featherlight-content {
+  width: 80%;
+  max-width: 800px;
+  padding: 0 !important;
+  border-bottom: none !important;
+}
+
+.featherlight:last-of-type {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.featherlight-inner {
+  width: 100%;
+}
+
+.featherlight-content pre {
+  margin: 0;
+  border: 0;
+  background: #fff;
+  font-size: 12px;
+}
+
+.unselectable {
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+#flexdashboard-source-code code {
+  -ms-user-select: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -o-user-select: text;
+  user-select: text;
+}
+
+/* DataTables Tweaks */
+
+.dataTables_filter input[type="search"] {
+  -webkit-appearance: searchfield;
+  outline: none;
+}
+
+.dataTables_wrapper.no-footer
+.dataTables_info {
+  padding-top: 0;
+}
+
+
+table.dataTable thead th {
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+  border-bottom: 1px solid #d7d7d7;
+}
+
+/* Mobile phone only CSS */
+
+.desktop-layout div.section.mobile {
+  display: none;
+}
+
+.mobile-layout div.section.no-mobile {
+  display: none;
+}
+
+.mobile-figure {
+  display: none;
+}
+
+
+
+body {
+  padding-top: 60px;
+}
+
+.section.sidebar {
+  top: 51px;
+  background-color: rgba(39, 128, 227, 0.1);
+}
+
+.value-box {
+  color: #f9f9f9;
+}
+
+.bg-primary {
+  background-color: rgba(39, 128, 227, 0.7);
+}
+
+.storyboard-nav .sbframelist ul li.active {
+  background-color: rgba(39, 128, 227, 0.7);
+}
+
+.nav-tabs-custom > .nav-tabs > li.active {
+  border-top-color: rgba(39, 128, 227, 0.7);
+}
+
+.bg-info {
+  background-color: rgba(153, 84, 187, 0.7);
+}
+
+.bg-warning {
+  background-color: rgba(255, 117, 24, 0.7);
+}
+
+.bg-danger {
+  background-color: rgba(255, 0, 57, 0.7);
+}
+
+.bg-success {
+  background-color: rgba(63, 182, 24, 0.7);
+}
+
+.chart-title {
+  font-weight: 500;
+}
+
+.nav-tabs-custom > .nav-tabs > li > a,
+.nav-tabs-custom > .nav-tabs > li > a:active {
+  font-weight: 500;
+}
+
+@media only screen and (min-width: 768px) {
+html, body {
+  height: 100%;
+}
+
+#dashboard-container {
+  height: 100%;
+}
+}
 </style>
-
-<!-- code folding -->
-
 
 
 
@@ -235,132 +820,1943 @@ $(document).ready(function () {
 
 <body>
 
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="container-fluid">
+<div class="navbar-header">
 
-<div class="container-fluid main-container">
+<button id="navbar-button" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
 
-
-
-
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">Home</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="about.html">About</a>
-</li>
-<li>
-  <a href="mailto:&lt;jdr2191@cumc.columbia.edu&gt;">
-    <span class="fa fa-envelope fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="http://github.com/jessrosenberg14/">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="https://www.linkedin.com/in/jessicadrosenberg/">
-    <span class="fab fa-linkedin"></span>
-     
-  </a>
-</li>
-      </ul>
-    </div><!--/.nav-collapse -->
-  </div><!--/.container -->
-</div><!--/.navbar -->
-
-<div id="header">
-
-
-
-<h1 class="title toc-ignore">Dashboard</h1>
+<span class="navbar-logo pull-left">
+  
+</span>
+<span class="navbar-brand">
+  Dashboard
+  <span class="navbar-author">
+        </span>
+</span>
 
 </div>
+<div id="navbar" class="navbar-collapse collapse">
+<ul class="nav navbar-nav navbar-left">
+</ul>
+<ul class="nav navbar-nav navbar-right">
+</ul>
+</div><!--/.nav-collapse-->
+</div><!--/.container-->
+</div><!--/.navbar-->
 
+<script type="text/javascript">
+
+
+var FlexDashboard = (function () {
+
+  // initialize options
+  var _options = {};
+
+  var FlexDashboard = function() {
+
+    // default options
+    _options = $.extend(_options, {
+      theme: "cosmo",
+      fillPage: false,
+      orientation: 'columns',
+      storyboard: false,
+      defaultFigWidth: 576,
+      defaultFigHeight: 461,
+      defaultFigWidthMobile: 360,
+      defaultFigHeightMobile: 461,
+      isMobile: false,
+      isPortrait: false,
+      resize_reload: true
+    });
+  };
+
+  function init(options) {
+
+    // extend default options
+    $.extend(true, _options, options);
+
+    // add ids to sections that don't have them (pandoc won't assign ids
+    // to e.g. sections with titles consisting of only chinese characters)
+    var nextId = 1;
+    $('.level1:not([id]),.level2:not([id]),.level3:not([id])').each(function() {
+      $(this).attr('id', 'dashboard-' + nextId++);
+    });
+
+    // find navbar items
+    var navbarItems = $('#flexdashboard-navbar');
+    if (navbarItems.length)
+      navbarItems = JSON.parse(navbarItems.html());
+    addNavbarItems(navbarItems);
+
+    // find the main dashboard container
+    var dashboardContainer = $('#dashboard-container');
+
+    // resolve mobile classes
+    resolveMobileClasses(dashboardContainer);
+
+    // one time global initialization for components
+    componentsInit(dashboardContainer);
+
+    // look for a global sidebar
+    var globalSidebar = dashboardContainer.find(".section.level1.sidebar");
+    if (globalSidebar.length > 0) {
+
+      // global layout for fullscreen displays
+      if (!isMobilePhone()) {
+
+         // hoist it up to the top level
+         globalSidebar.insertBefore(dashboardContainer);
+
+         // lay it out (set width/positions)
+         layoutSidebar(globalSidebar, dashboardContainer);
+
+      // tuck sidebar into first page for mobile phones
+      } else {
+
+        // convert it into a level3 section
+        globalSidebar.removeClass('sidebar');
+        globalSidebar.removeClass('level1');
+        globalSidebar.addClass('level3');
+        var h1 = globalSidebar.children('h1');
+        var h3 = $('<h3></h3>');
+        h3.append(h1.contents());
+        h3.insertBefore(h1);
+        h1.detach();
+
+        // move it into the first page
+        var page = dashboardContainer.find('.section.level1').first();
+        if (page.length > 0)
+          page.prepend(globalSidebar);
+      }
+    }
+
+    // look for pages to layout
+    var pages = $('div.section.level1');
+    if (pages.length > 0) {
+
+        // find the navbar and collapse on clicked
+        var navbar = $('#navbar');
+        navbar.on("click", "a[data-toggle!=dropdown]", null, function () {
+           navbar.collapse('hide');
+        });
+
+        // envelop the dashboard container in a tab content div
+        dashboardContainer.wrapInner('<div class="tab-content"></div>');
+
+        pages.each(function(index) {
+
+          // lay it out
+          layoutDashboardPage($(this));
+
+          // add it to the navbar
+          addToNavbar($(this), index === 0);
+
+        });
+
+    } else {
+
+      // remove the navbar and navbar button if we don't
+      // have any navbuttons
+      if (navbarItems.length === 0) {
+        $('#navbar').remove();
+        $('#navbar-button').remove();
+      }
+
+      // add the storyboard class if requested
+      if (_options.storyboard)
+        dashboardContainer.addClass('storyboard');
+
+      // layout the entire page
+      layoutDashboardPage(dashboardContainer);
+    }
+
+    // if we are in shiny we need to trigger a window resize event to
+    // force correct layout of shiny-bound-output elements
+    if (isShinyDoc())
+      $(window).trigger('resize');
+
+    // make main components visible
+    $('.section.sidebar').css('visibility', 'visible');
+    dashboardContainer.css('visibility', 'visible');
+
+    // handle location hash
+    handleLocationHash();
+
+    // intialize prism highlighting
+    initPrismHighlighting();
+
+    // record mobile and orientation state then register a handler
+    // to refresh if resize_reload is set to true and it changes
+    _options.isMobile = isMobilePhone();
+    _options.isPortrait = isPortrait();
+    if (_options.resize_reload) {
+      $(window).on('resize', function() {
+        if (_options.isMobile !== isMobilePhone() ||
+            _options.isPortrait !== isPortrait()) {
+          window.location.reload();
+        }
+      });
+    } else {
+      // if in desktop mode and resizing to mobile, make sure the heights are 100%
+      // This enforces what `fillpage.css` does for "wider" pages.
+      // Since we are not reloading once the page becomes small, we need to force the height to 100%
+      // This is a new situation introduced when `_options.resize_reload` is `false`
+      if (! _options.isMobile) {
+        // only add if `fillpage.css` was added in the first place
+        if (_options.fillPage) {
+          // fillpage.css
+          $("html,body,#dashboard").css("height", "100%");
+        }
+      }
+    }
+    // trigger layoutcomplete event
+    dashboardContainer.trigger('flexdashboard:layoutcomplete');
+  }
+
+  function resolveMobileClasses(dashboardContainer) {
+     // add top level layout class
+    dashboardContainer.addClass(isMobilePhone() ? 'mobile-layout' :
+                                                  'desktop-layout');
+
+    // look for .mobile sections and add .no-mobile to their peers
+    var mobileSections = $('.section.mobile');
+    mobileSections.each(function() {
+       var id = $(this).attr('id');
+       var nomobileId = id.replace(/-\d+$/, '');
+       $('#' + nomobileId).addClass('no-mobile');
+    });
+  }
+
+  function addNavbarItems(navbarItems) {
+
+    var navbarLeft = $('ul.navbar-left');
+    var navbarRight = $('ul.navbar-right');
+
+    for (var i = 0; i<navbarItems.length; i++) {
+
+      // get the item
+      var item = navbarItems[i];
+
+      // determine the container
+      var container = null;
+      if (item.align === "left")
+        container = navbarLeft;
+      else
+        container = navbarRight;
+
+      // navbar menu if we have multiple items
+      if (item.items) {
+        var menu = navbarMenu(null, item.icon, item.title, container);
+        for (var j = 0; j<item.items.length; j++) {
+          var subItem = item.items[j];
+          var li = $('<li></li>');
+          li.append(navbarLink(subItem.icon, subItem.title, subItem.href, subItem.target));
+          menu.append(li);
+        }
+      } else {
+        var li = $('<li></li>');
+        li.append(navbarLink(item.icon, item.title, item.href, item.target));
+        container.append(li);
+      }
+    }
+  }
+
+  // create or get a reference to an existing dropdown menu
+  function navbarMenu(id, icon, title, container) {
+    var existingMenu = [];
+    if (id)
+      existingMenu = container.children('#' + id);
+    if (existingMenu.length > 0) {
+      return existingMenu.children('ul');
+    } else {
+      var li = $('<li></li>');
+      if (id)
+        li.attr('id', id);
+      li.addClass('dropdown');
+      // auto add "Share" title on mobile if necessary
+      if (!title && icon && (icon === "fa-share-alt") && isMobilePhone())
+        title = "Share";
+      if (title) {
+        title = title + ' <span class="caret"></span>';
+      }
+      var a = navbarLink(icon, title, "#");
+      a.addClass('dropdown-toggle');
+      a.attr('data-toggle', 'dropdown');
+      a.attr('role', 'button');
+      a.attr('aria-expanded', 'false');
+      li.append(a);
+      var ul = $('<ul class="dropdown-menu"></ul>');
+      ul.attr('role', 'menu');
+      li.append(ul);
+      container.append(li);
+      return ul;
+    }
+  }
+
+  function addToNavbar(page, active) {
+
+    // capture the id and data-icon attribute (if any)
+    var id = page.attr('id');
+    var icon = page.attr('data-icon');
+    var navmenu = page.attr('data-navmenu');
+
+    // get hidden state (transfer this to navbar)
+    var hidden = page.hasClass('hidden');
+    page.removeClass('hidden');
+
+    // sanitize the id for use with bootstrap tabs
+    id = id.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_');
+    page.attr('id', id);
+
+    // get the wrapper
+    var wrapper = page.closest('.dashboard-page-wrapper');
+
+    // move the id to the wrapper
+    page.removeAttr('id');
+    wrapper.attr('id', id);
+
+    // add the tab-pane class to the wrapper
+    wrapper.addClass('tab-pane');
+    if (active)
+      wrapper.addClass('active');
+
+    // get a reference to the h1, discover its inner contens, then detach it
+    var h1 = wrapper.find('h1').first();
+    var title = h1.contents();
+    h1.detach();
+
+    // create a navbar item
+    var li = $('<li></li>');
+    var a = navbarLink(icon, title, '#' + id);
+    a.attr('data-toggle', 'tab');
+    li.append(a);
+
+    // add it to the navbar (or navbar menu if specified)
+    var container = $('ul.navbar-left');
+    if (navmenu) {
+      var menuId = navmenu.replace(/\s+/g, '');
+      var menu = navbarMenu(menuId, null, navmenu, container);
+      menu.append(li);
+    } else {
+      container.append(li);
+    }
+
+    // hide it if requested
+    if (hidden)
+      li.addClass('hidden');
+  }
+
+  function navbarLink(icon, title, href, target) {
+
+    var a = $('<a></a>');
+    if (icon) {
+
+      // get the name of the icon set and icon
+      var dashPos = icon.indexOf("-");
+      var iconSet = null;
+      var iconSplit = icon.split(" ");
+      if (iconSplit.length > 1) {
+        iconSet = iconSplit[0];
+        icon = iconSplit.slice(1).join(" ");
+      } else {
+        iconSet = icon.substring(0, dashPos);
+      }
+      var iconName = icon.substring(dashPos + 1);
+
+      // create the icon
+      var iconElement = $('<span class="' + iconSet + ' ' + icon + '"></span>');
+      if (title)
+        iconElement.css('margin-right', '7px');
+      a.append(iconElement);
+      // if href is null see if we can auto-generate based on icon (e.g. social)
+      if (!href)
+        maybeGenerateLinkFromIcon(iconName, a);
+    }
+    if (title)
+      a.append(title);
+
+    // add the href.
+    if (href) {
+      if (href === "source_embed") {
+        a.attr('href', '#');
+        a.attr('data-featherlight', "#flexdashboard-source-code");
+        a.featherlight({
+            beforeOpen: function(event){
+              $('body').addClass('unselectable');
+            },
+            afterClose: function(event){
+              $('body').removeClass('unselectable');
+            }
+        });
+      } else {
+        a.attr('href', href);
+      }
+    }
+
+    // add the arget
+    if (target)
+      a.attr('target', target);
+
+    return a;
+  }
+
+  // auto generate a link from an icon name (e.g. twitter) when possible
+  function maybeGenerateLinkFromIcon(iconName, a) {
+
+     var serviceLinks = {
+      "twitter": "https://twitter.com/share?text=" + encodeURIComponent(document.title) + "&url="+encodeURIComponent(location.href),
+      "facebook": "https://www.facebook.com/sharer/sharer.php?s=100&p[url]="+encodeURIComponent(location.href),
+      "google-plus": "https://plus.google.com/share?url="+encodeURIComponent(location.href),
+      "linkedin": "https://www.linkedin.com/shareArticle?mini=true&url="+encodeURIComponent(location.href) + "&title=" + encodeURIComponent(document.title),
+      "pinterest": "https://pinterest.com/pin/create/link/?url="+encodeURIComponent(location.href) + "&description=" + encodeURIComponent(document.title)
+    };
+
+    var makeSocialLink = function(a, href) {
+      a.attr('href', '#');
+      a.on('click', function(e) {
+        e.preventDefault();
+        window.open(href);
+      });
+    };
+
+    $.each(serviceLinks, function(key, value) {
+      if (iconName.indexOf(key) !== -1)
+        makeSocialLink(a, value);
+    });
+  }
+
+  // layout a dashboard page
+  function layoutDashboardPage(page) {
+
+    // use a page wrapper so that free form content above the
+    // dashboard appears at the top rather than the side (as it
+    // would without the wrapper in a column orientation)
+    var wrapper = $('<div class="dashboard-page-wrapper"></div>');
+    page.wrap(wrapper);
+
+    // if there are no level2 or level3 headers synthesize a level3
+    // header to contain the (e.g. frame it, scroll container, etc.)
+    var headers = page.find('h2,h3');
+    if (headers.length === 0)
+      page.wrapInner('<div class="section level3"></div>');
+
+    // hoist up any content before level 2 or level 3 headers
+    var children = page.children();
+    children.each(function(index) {
+      if ($(this).hasClass('level2') || $(this).hasClass('level3'))
+        return false;
+      $(this).insertBefore(page);
+    });
+
+    // determine orientation and fillPage behavior for distinct media
+    var orientation, fillPage, storyboard;
+
+    // media: mobile phone
+    if (isMobilePhone()) {
+
+      // if there is a sidebar we need to ensure it's content
+      // is properly framed as an h3
+      var sidebar = page.find('.section.sidebar');
+      sidebar.removeClass('sidebar');
+      sidebar.wrapInner('<div class="section level3"></div>');
+      var h2 = sidebar.find('h2');
+      var h3 = $('<h3></h3>');
+      h3.append(h2.contents());
+      h3.insertBefore(h2);
+      h2.detach();
+
+      // wipeout h2 elements then enclose them in a single h2
+      var level2 = page.find('div.section.level2');
+      level2.each(function() {
+        level2.children('h2').remove();
+        level2.children().unwrap();
+      });
+      page.wrapInner('<div class="section level2"></div>');
+
+      // substitute mobile images
+      if (isPortrait()) {
+        var mobileFigures = $('img.mobile-figure');
+        mobileFigures.each(function() {
+          // get the src (might be base64 encoded)
+          var src = $(this).attr('src');
+
+          // find it's peer
+          var id = $(this).attr('data-mobile-figure-id');
+          var img = $('img[data-figure-id=' + id + "]");
+          img.attr('src', src)
+             .attr('width', _options.defaultFigWidthMobile)
+             .attr('height', _options.defaultFigHeightMobile);
+        });
+      }
+
+      // hoist storyboard commentary into it's own section
+      if (page.hasClass('storyboard')) {
+        var commentaryHR = page.find('div.section.level3 hr');
+        commentaryHR.each(function() {
+          var commentary = $(this).nextAll().detach();
+          var commentarySection = $('<div class="section level3"></div>');
+          commentarySection.append(commentary);
+          commentarySection.insertAfter($(this).closest('div.section.level3'));
+          $(this).remove();
+        });
+      }
+
+      // force a non full screen layout by columns
+      orientation = _options.orientation = 'columns';
+      fillPage = _options.fillPage = false;
+      storyboard = _options.storyboard = false;
+
+    // media: desktop
+    } else {
+
+      // determine orientation
+      orientation = page.attr('data-orientation');
+      if (orientation !== 'rows' && orientation != 'columns')
+        orientation = _options.orientation;
+
+      // determine storyboard mode
+      storyboard = page.hasClass('storyboard');
+
+      // fillPage based on options (force for storyboard)
+      fillPage = _options.fillPage || storyboard;
+
+      // handle sidebar
+      var sidebar = page.find('.section.level2.sidebar');
+      if (sidebar.length > 0)
+        layoutSidebar(sidebar, page);
+    }
+
+    // give it and it's parent divs height: 100% if we are in fillPage mode
+    if (fillPage) {
+      page.addClass('vertical-layout-fill');
+      page.css('height', '100%');
+      page.parents('div').css('height', '100%');
+    } else {
+      page.addClass('vertical-layout-scroll');
+    }
+
+    // perform the layout
+    if (storyboard)
+      layoutPageAsStoryboard(page);
+    else if (orientation === 'rows')
+      layoutPageByRows(page, fillPage);
+    else if (orientation === 'columns')
+      layoutPageByColumns(page, fillPage);
+  }
+
+  function layoutSidebar(sidebar, content) {
+
+    // get it out of the header hierarchy
+    sidebar = sidebar.first();
+    if (sidebar.hasClass('level1')) {
+      sidebar.removeClass('level1');
+      sidebar.children('h1').remove();
+    } else if (sidebar.hasClass('level2')) {
+      sidebar.removeClass('level2');
+      sidebar.children('h2').remove();
+    }
+
+    // determine width
+    var sidebarWidth = isTablet() ? 220 : 250;
+    var dataWidth = parseInt(sidebar.attr('data-width'));
+    if (dataWidth)
+      sidebarWidth = dataWidth;
+
+    // set the width and shift the page right to accomodate the sidebar
+    sidebar.css('width', sidebarWidth + 'px');
+    content.css('padding-left', sidebarWidth + 'px');
+
+    // wrap it's contents in a form
+    sidebar.wrapInner($('<form></form>'));
+  }
+
+  function layoutPageAsStoryboard(page) {
+
+    // create storyboard navigation
+    var nav = $('<div class="storyboard-nav"></div>');
+
+    // add navigation buttons
+    var prev = $('<button class="sbprev"><i class="fa fa-angle-left"></i></button>');
+    nav.append(prev);
+    var next= $('<button class="sbnext"><i class="fa fa-angle-right"></i></button>');
+    nav.append(next);
+
+    // add navigation frame
+    var frameList = $('<div class="sbframelist"></div>');
+    nav.append(frameList);
+    var ul = $('<ul></ul>');
+    frameList.append(ul);
+
+     // find all the level3 sections (those are the storyboard frames)
+    var frames = page.find('div.section.level3');
+    frames.each(function() {
+
+      // mark it
+      $(this).addClass('sbframe');
+
+      // divide it into chart content and (optional) commentary
+      $(this).addClass('dashboard-column-orientation');
+
+      // stuff the chart into it's own div w/ flex
+      $(this).wrapInner('<div class="sbframe-component"></div>');
+      setFlex($(this), 1);
+      var frame = $(this).children('.sbframe-component');
+
+      // extract the title from the h3
+      var li = $('<li></li>');
+      var h3 = frame.children('h3');
+      li.append(h3.contents());
+      h3.detach();
+      ul.append(li);
+
+      // extract commentary
+      var hr = frame.children('hr');
+      if (hr.length) {
+        var commentary = hr.nextAll().detach();
+        hr.remove();
+        var commentaryFrame = $('<div class="sbframe-commentary"></div>');
+        commentaryFrame.addClass('flowing-content-shim');
+        commentaryFrame.addClass('flowing-content-container');
+        commentaryFrame.append(commentary);
+        $(this).append(commentaryFrame);
+
+        // look for a data-commentary-width attribute
+        var commentaryWidth = $(this).attr('data-commentary-width');
+        if (commentaryWidth)
+          commentaryFrame.css('width', commentaryWidth + 'px');
+      }
+
+      // layout the chart (force flex)
+      var result = layoutChart(frame, true);
+
+      // ice the notes if there are none
+      if (!result.notes)
+        frame.find('.chart-notes').remove();
+
+      // set flex on chart
+      setFlex(frame, 1);
+    });
+
+    // create a div to hold all the frames
+    var frameContent = $('<div class="sbframe-content"></div>');
+    frameContent.addClass('dashboard-row-orientation');
+    frameContent.append(frames.detach());
+
+    // row orientation to stack nav and frame content
+    page.addClass('dashboard-row-orientation');
+    page.append(nav);
+    page.append(frameContent);
+    setFlex(frameContent, 1);
+
+    // initialize sly
+    var sly = new Sly(frameList, {
+    		horizontal: true,
+    		itemNav: 'basic',
+    		smart: true,
+    		activateOn: 'click',
+    		startAt: 0,
+    		scrollBy: 1,
+    		activatePageOn: 'click',
+    		speed: 200,
+    		moveBy: 600,
+    		dragHandle: true,
+    		dynamicHandle: true,
+    		clickBar: true,
+    		keyboardNavBy: 'items',
+    		next: next,
+    		prev: prev
+    	}).init();
+
+    // make first frame active
+    frames.removeClass('active');
+    frames.first().addClass('active');
+
+    // subscribe to frame changed events
+    sly.on('active', function (eventName, itemIndex) {
+      frames.removeClass('active');
+      frames.eq(itemIndex).addClass('active')
+                          .trigger('shown');
+    });
+  }
+
+  function layoutPageByRows(page, fillPage) {
+
+    // row orientation
+    page.addClass('dashboard-row-orientation');
+
+    // find all the level2 sections (those are the rows)
+    var rows = page.find('div.section.level2');
+
+    // if there are no level2 sections then treat the
+    // entire page as if it's a level 2 section
+    if (rows.length === 0) {
+      page.wrapInner('<div class="section level2"></div>');
+      rows = page.find('div.section.level2');
+    }
+
+    rows.each(function () {
+
+      // flags
+      var haveNotes = false;
+      var haveFlexHeight = true;
+
+      // remove the h2
+      $(this).children('h2').remove();
+
+      // check for a tabset
+      var isTabset = $(this).hasClass('tabset');
+      if (isTabset)
+        layoutTabset($(this));
+
+      // give it row layout semantics if it's not a tabset
+      if (!isTabset)
+        $(this).addClass('dashboard-row');
+
+      // find all of the level 3 subheads
+      var columns = $(this).find('div.section.level3');
+
+      // determine figureSizes sizes
+      var figureSizes = chartFigureSizes(columns);
+
+      // fixup the columns
+      columns.each(function(index) {
+
+        // layout the chart (force flex if we are in a tabset)
+        var result = layoutChart($(this), isTabset);
+
+        // update flexHeight state
+        if (!result.flex)
+          haveFlexHeight = false;
+
+        // update state
+        if (result.notes)
+          haveNotes = true;
+
+        // set the column flex based on the figure width
+        // (value boxes will just get the default figure width)
+        var chartWidth = figureSizes[index].width;
+        setFlex($(this), chartWidth + ' ' + chartWidth + ' 0px');
+
+      });
+
+      // remove empty chart note divs
+      if (isTabset)
+        $(this).find('.chart-notes').filter(function() {
+            return $(this).html() === "&nbsp;";
+        }).remove();
+      if (!haveNotes)
+        $(this).find('.chart-notes').remove();
+
+       // make it a flexbox row
+      if (haveFlexHeight)
+        $(this).addClass('dashboard-row-flex');
+
+      // now we can set the height on all the wrappers (based on maximum
+      // figure height + room for title and notes, or data-height on the
+      // container if specified). However, don't do this if there is
+      // no flex on any of the constituent columns
+      var flexHeight = null;
+      var dataHeight = parseInt($(this).attr('data-height'));
+      if (dataHeight)
+        flexHeight = adjustedHeight(dataHeight, columns.first());
+      else if (haveFlexHeight)
+        flexHeight = maxChartHeight(figureSizes, columns);
+      if (flexHeight) {
+        if (fillPage)
+          setFlex($(this), flexHeight + ' ' + flexHeight + ' 0px');
+        else {
+          $(this).css('height', flexHeight + 'px');
+          setFlex($(this), '0 0 ' + flexHeight + 'px');
+        }
+      }
+
+    });
+  }
+
+  function layoutPageByColumns(page, fillPage) {
+
+    // column orientation
+    page.addClass('dashboard-column-orientation');
+
+    // find all the level2 sections (those are the columns)
+    var columns = page.find('div.section.level2');
+
+    // if there are no level2 sections then treat the
+    // entire page as if it's a level 2 section
+    if (columns.length === 0) {
+      page.wrapInner('<div class="section level2"></div>');
+      columns = page.find('div.section.level2');
+    }
+
+    // layout each column
+    columns.each(function (index) {
+
+      // remove the h2
+      $(this).children('h2').remove();
+
+      // make it a flexbox column
+      $(this).addClass('dashboard-column');
+
+      // check for a tabset
+      var isTabset = $(this).hasClass('tabset');
+      if (isTabset)
+        layoutTabset($(this));
+
+      // find all the h3 elements
+      var rows = $(this).find('div.section.level3');
+
+      // get the figure sizes for the rows
+      var figureSizes = chartFigureSizes(rows);
+
+      // column flex is the max row width (or data-width if specified)
+      var flexWidth;
+      var dataWidth = parseInt($(this).attr('data-width'));
+      if (dataWidth)
+        flexWidth = dataWidth;
+      else
+        flexWidth = maxChartWidth(figureSizes);
+      setFlex($(this), flexWidth + ' ' + flexWidth + ' 0px');
+
+      // layout each chart
+      rows.each(function(index) {
+
+        // perform the layout
+        var result = layoutChart($(this), false);
+
+        // ice the notes if there are none
+        if (!result.notes)
+          $(this).find('.chart-notes').remove();
+
+        // set flex height based on figHeight, then adjust
+        if (result.flex) {
+          var chartHeight = figureSizes[index].height;
+          chartHeight = adjustedHeight(chartHeight, $(this));
+          if (fillPage)
+            setFlex($(this), chartHeight + ' ' + chartHeight + ' 0px');
+          else {
+            $(this).css('height', chartHeight + 'px');
+            setFlex($(this), chartHeight + ' ' + chartHeight + ' ' + chartHeight + 'px');
+          }
+        }
+      });
+    });
+  }
+
+  function chartFigureSizes(charts) {
+
+    // sizes
+    var figureSizes = new Array(charts.length);
+
+    // check each chart
+    charts.each(function(index) {
+
+      // start with default
+      figureSizes[index] = {
+        width: _options.defaultFigWidth,
+        height: _options.defaultFigHeight
+      };
+
+      // look for data-height or data-width then knit options
+      var dataWidth = parseInt($(this).attr('data-width'));
+      var dataHeight = parseInt($(this).attr('data-height'));
+      var knitrOptions = $(this).find('.knitr-options:first');
+      var knitrWidth, knitrHeight;
+      if (knitrOptions) {
+        knitrWidth = parseInt(knitrOptions.attr('data-fig-width'));
+        knitrHeight =  parseInt(knitrOptions.attr('data-fig-height'));
+      }
+
+      // width
+      if (dataWidth)
+        figureSizes[index].width = dataWidth;
+      else if (knitrWidth)
+        figureSizes[index].width = knitrWidth;
+
+      // height
+      if (dataHeight)
+        figureSizes[index].height = dataHeight;
+      else if (knitrHeight)
+        figureSizes[index].height = knitrHeight;
+    });
+
+    // return sizes
+    return figureSizes;
+  }
+
+  function maxChartHeight(figureSizes, charts) {
+
+    // first compute the maximum height
+    var maxHeight = _options.defaultFigHeight;
+    for (var i = 0; i<figureSizes.length; i++)
+      if (figureSizes[i].height > maxHeight)
+        maxHeight = figureSizes[i].height;
+
+    // now add offests for chart title and chart notes
+    if (charts.length)
+      maxHeight = adjustedHeight(maxHeight, charts.first());
+
+    return maxHeight;
+  }
+
+  function adjustedHeight(height, chart) {
+    if (chart.length > 0) {
+      var chartTitle = chart.find('.chart-title');
+      if (chartTitle.length)
+        height += chartTitle.first().outerHeight();
+      var chartNotes = chart.find('.chart-notes');
+      if (chartNotes.length)
+        height += chartNotes.first().outerHeight();
+    }
+    return height;
+  }
+
+  function maxChartWidth(figureSizes) {
+    var maxWidth = _options.defaultFigWidth;
+    for (var i = 0; i<figureSizes.length; i++)
+      if (figureSizes[i].width > maxWidth)
+        maxWidth = figureSizes[i].width;
+    return maxWidth;
+  }
+
+  // layout a chart
+  function layoutChart(chart, forceFlex) {
+
+    // state to return
+    var result = {
+      notes: false,
+      flex: false
+    };
+
+    // extract the title
+    var title = extractTitle(chart);
+
+    // find components that apply to this container
+    var components = componentsFind(chart);
+
+    // if it's a custom component then call it and return
+    var customComponents = componentsCustom(components);
+    if (customComponents.length) {
+      componentsLayout(customComponents, title, chart);
+      result.notes = false;
+      result.flex = forceFlex || componentsFlex(customComponents);
+      return result;
+    }
+
+    // put all the content in a chart wrapper div
+    chart.addClass('chart-wrapper');
+    chart.wrapInner('<div class="chart-stage"></div>');
+    var chartContent = chart.children('.chart-stage');
+
+    // flex the content if appropriate
+    result.flex = forceFlex || componentsFlex(components);
+    if (result.flex) {
+      // add flex classes
+      chart.addClass('chart-wrapper-flex');
+      chartContent.addClass('chart-stage-flex');
+
+      // additional shim to break out of flexbox sizing
+      chartContent.wrapInner('<div class="chart-shim"></div>');
+      chartContent = chartContent.children('.chart-shim');
+    }
+
+    // set custom data-padding attribute
+    var pad = chart.attr('data-padding');
+    if (pad) {
+      if (pad === "0")
+        chart.addClass('no-padding');
+      else {
+        pad = pad + 'px';
+        chartContent.css('left', pad)
+                    .css('top', pad)
+                    .css('right', pad)
+                    .css('bottom', pad)
+      }
+    }
+
+    // call compoents
+    componentsLayout(components, title, chartContent);
+
+    // also activate components on shiny output
+    findShinyOutput(chartContent).on('shiny:value',
+      function(event) {
+        var element = $(event.target);
+        setTimeout(function() {
+
+          // see if we opted out of flex based on our output (for shiny
+          // we can't tell what type of output we have until after the
+          // value is bound)
+          var components = componentsFind(element);
+          var flex = forceFlex || componentsFlex(components);
+          if (!flex) {
+            chart.css('height', "");
+            setFlex(chart, "");
+            chart.removeClass('chart-wrapper-flex');
+            chartContent.removeClass('chart-stage-flex');
+            chartContent.children().unwrap();
+          }
+
+          // perform layout
+          componentsLayout(components, title, element.parent());
+        }, 10);
+      });
+
+    // add the title
+    var chartTitle = $('<div class="chart-title"></div>');
+    chartTitle.append(title);
+    chart.prepend(chartTitle);
+
+    // add the notes section
+    var chartNotes = $('<div class="chart-notes"></div>');
+    chartNotes.html('&nbsp;');
+    chart.append(chartNotes);
+
+    // attempt to extract notes if we have a component
+    if (components.length)
+      result.notes = extractChartNotes(chartContent, chartNotes);
+
+    // return result
+    return result;
+  }
+
+  // build a tabset from a section div with the .tabset class
+  function layoutTabset(tabset) {
+
+    // check for fade option
+    var fade = tabset.hasClass("tabset-fade");
+    var navClass = "nav-tabs";
+
+    // determine the heading level of the tabset and tabs
+    var match = tabset.attr('class').match(/level(\d) /);
+    if (match === null)
+      return;
+    var tabsetLevel = Number(match[1]);
+    var tabLevel = tabsetLevel + 1;
+
+    // find all subheadings immediately below
+    var tabs = tabset.find("div.section.level" + tabLevel);
+    if (!tabs.length)
+      return;
+
+    // create tablist and tab-content elements
+    var tabList = $('<ul class="nav ' + navClass + '" role="tablist"></ul>');
+    $(tabs[0]).before(tabList);
+    var tabContent = $('<div class="tab-content"></div>');
+    $(tabs[0]).before(tabContent);
+
+    // build the tabset
+    tabs.each(function(i) {
+
+      // get the tab div
+      var tab = $(tabs[i]);
+
+      // get the id then sanitize it for use with bootstrap tabs
+      var id = tab.attr('id');
+
+      // sanitize the id for use with bootstrap tabs
+      id = id.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_');
+      tab.attr('id', id);
+
+      // get the heading element within it and grab it's text
+      var heading = tab.find('h' + tabLevel + ':first');
+      var headingDom = heading.contents();
+
+      // build and append the tab list item
+      var a = $('<a role="tab" data-toggle="tab"></a>');
+      a.append(headingDom);
+      a.attr('href', '#' + id);
+      a.attr('aria-controls', id);
+      var li = $('<li role="presentation"></li>');
+      li.append(a);
+      if (i === 0)
+        li.attr('class', 'active');
+      tabList.append(li);
+
+      // set it's attributes
+      tab.attr('role', 'tabpanel');
+      tab.addClass('tab-pane');
+      tab.addClass('tabbed-pane');
+      tab.addClass('no-title');
+      if (fade)
+        tab.addClass('fade');
+      if (i === 0) {
+        tab.addClass('active');
+        if (fade)
+          tab.addClass('in');
+      }
+
+      // move it into the tab content div
+      tab.detach().appendTo(tabContent);
+    });
+
+    // add nav-tabs-custom
+    tabset.addClass('nav-tabs-custom');
+
+    // internal layout is dashboard-column with tab-content flexing
+    tabset.addClass('dashboard-column');
+    setFlex(tabContent, 1);
+  }
+
+  // one time global initialization for components
+  function componentsInit(dashboardContainer) {
+    for (var i=0; i<window.FlexDashboardComponents.length; i++) {
+      var component = window.FlexDashboardComponents[i];
+      if (component.init)
+        component.init(dashboardContainer);
+    }
+  }
+
+  // find components that apply within a container
+  function componentsFind(container) {
+
+    // look for components
+    var components = [];
+    for (var i=0; i<window.FlexDashboardComponents.length; i++) {
+      var component = window.FlexDashboardComponents[i];
+      if (component.find(container).length)
+        components.push(component);
+    }
+
+    // if there were none then use a special flowing content component
+    // that just adds a scrollbar in fillPage mode
+    if (components.length == 0) {
+      components.push({
+        find: function(container) {
+          return container;
+        },
+
+        flex: function(fillPage) {
+          return fillPage;
+        },
+
+        layout: function(title, container, element, fillPage) {
+          if (fillPage) {
+            container.addClass('flowing-content-shim');
+            container.addClass('flowing-content-container');
+          }
+        }
+      });
+    }
+
+    return components;
+  }
+
+  // if there is a custom component then pick it out
+  function componentsCustom(components) {
+    var customComponent = [];
+    for (var i=0; i<components.length; i++)
+      if (components[i].type === "custom") {
+        customComponent.push(components[i]);
+        break;
+      }
+    return customComponent;
+  }
+
+  // query all components for flex
+  function componentsFlex(components) {
+
+    // no components at all means no flex
+    if (components.length === 0)
+      return false;
+
+    // otherwise query components (assume true unless we see false)
+    var isMobile = isMobilePhone();
+    for (var i=0; i<components.length; i++)
+      if (components[i].flex && !components[i].flex(_options.fillPage))
+        return false;
+    return true;
+  }
+
+  // layout all components
+  function componentsLayout(components, title, container) {
+    var isMobile = isMobilePhone();
+    for (var i=0; i<components.length; i++) {
+      var element = components[i].find(container);
+      if (components[i].layout) {
+        // call layout (don't call other components if it returns false)
+        var result = components[i].layout(title, container, element, _options.fillPage);
+        if (result === false)
+          return;
+      }
+    }
+  }
+
+  // get a reference to the h3, discover it's inner html, and remove it
+  function extractTitle(container) {
+    var h3 = container.children('h3').first();
+    var title = '';
+    if (!container.hasClass('no-title'))
+      title = h3.contents();
+    h3.detach();
+    return title;
+  }
+
+  // extract chart notes
+  function extractChartNotes(chartContent, chartNotes) {
+    // look for a terminating blockquote or image caption
+    var blockquote = chartContent.children('blockquote:last-child');
+    var caption = chartContent.children('div.image-container')
+                              .children('p.caption');
+    if (blockquote.length) {
+      chartNotes.empty().append(blockquote.children('p:first-child').contents());
+      blockquote.remove();
+      return true;
+    } else if (caption.length) {
+      chartNotes.empty().append(caption.contents());
+      caption.remove();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function findShinyOutput(chartContent) {
+    return chartContent.find('.shiny-text-output, .shiny-html-output');
+  }
+
+  // safely detect rendering on a mobile phone
+  function isMobilePhone() {
+    try
+    {
+      return ! window.matchMedia("only screen and (min-width: 768px)").matches;
+    }
+    catch(e) {
+      return false;
+    }
+  }
+
+  function isFillPage() {
+    return _options.fillPage;
+  }
+
+  // detect portrait mode
+  function isPortrait() {
+    return ($(window).width() < $(window).height());
+  }
+
+  // safely detect rendering on a tablet
+  function isTablet() {
+    try
+    {
+      return window.matchMedia("only screen and (min-width: 769px) and (max-width: 992px)").matches;
+    }
+    catch(e) {
+      return false;
+    }
+  }
+
+  // test whether this is a shiny doc
+  function isShinyDoc() {
+    return (typeof(window.Shiny) !== "undefined" && !!window.Shiny.outputBindings);
+  }
+
+  // set flex using vendor specific prefixes
+  function setFlex(el, flex) {
+    el.css('-webkit-box-flex', flex)
+      .css('-webkit-flex', flex)
+      .css('-ms-flex', flex)
+      .css('flex', flex);
+  }
+
+  // support bookmarking of pages
+  function handleLocationHash() {
+
+    // restore tab/page from bookmark
+    var hash = window.decodeURIComponent(window.location.hash);
+    if (hash.length > 0)
+      $('ul.nav a[href="' + hash + '"]').tab('show');
+    FlexDashboardUtils.manageActiveNavbarMenu();
+
+    // navigate to a tab when the history changes
+    window.addEventListener("popstate", function(e) {
+      var hash = window.decodeURIComponent(window.location.hash);
+      var activeTab = $('ul.nav a[href="' + hash + '"]');
+      if (activeTab.length) {
+        activeTab.tab('show');
+      } else {
+        $('ul.nav a:first').tab('show');
+      }
+      FlexDashboardUtils.manageActiveNavbarMenu();
+    });
+
+    // add a hash to the URL when the user clicks on a tab/page
+    $('.navbar-nav a[data-toggle="tab"]').on('click', function(e) {
+      var baseUrl = FlexDashboardUtils.urlWithoutHash(window.location.href);
+      var hash = FlexDashboardUtils.urlHash($(this).attr('href'));
+      var href = baseUrl + hash;
+      FlexDashboardUtils.setLocation(href);
+    });
+
+    // handle clicks of other links that should activate pages
+    var navPages = $('ul.navbar-nav li a[data-toggle=tab]');
+    navPages.each(function() {
+      var href =  $(this).attr('href');
+      var links = $('a[href="' + href + '"][data-toggle!=tab]');
+      links.each(function() {
+        $(this).on('click', function(e) {
+          window.FlexDashboardUtils.showPage(href);
+        });
+      });
+    });
+  }
+
+  // tweak Prism highlighting
+  function initPrismHighlighting() {
+
+    if (window.Prism) {
+      Prism.languages.insertBefore('r', 'comment', {
+        'heading': [
+          {
+            // title 1
+        	  // =======
+
+        	  // title 2
+        	  // -------
+        	  pattern: /\w+.*(?:\r?\n|\r)(?:====+|----+)/,
+            alias: 'operator'
+          },
+          {
+            // ### title 3
+            pattern: /(^\s*)###[^#].+/m,
+            lookbehind: true,
+            alias: 'operator'
+          }
+        ]
+      });
+
+      // prism highlight
+      Prism.highlightAll();
+    }
+  }
+
+
+  // get theme color
+  var themeColors = {
+    bootstrap: {
+      primary: "rgba(51, 122, 183, 0.4)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    cerulean: {
+      primary: "rgb(47, 164, 231)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    journal: {
+      primary: "rgba(235, 104, 100, 0.70)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    flatly: {
+      primary: "rgba(44, 62, 80, 0.70)",
+      info: "rgba(52, 152, 219, 0.70)",
+      success: "rgba(24, 188, 156, 0.70)",
+      warning: "rgba(243, 156, 18, 0.70)",
+      danger: "rgba(231, 76, 60, 0.70)"
+    },
+    readable: {
+      primary: "rgba(69, 130, 236, 0.4)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    spacelab: {
+      primary: "rgba(68, 110, 155, 0.25)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    united: {
+      primary: "rgba(221, 72, 20, 0.30)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    cosmo: {
+      primary: "rgba(39, 128, 227, 0.7)",
+      info: "rgba(153, 84, 187, 0.7)",
+      success: "rgba(63, 182, 24, 0.7)",
+      warning: "rgba(255, 117, 24, 0.7)",
+      danger: "rgba(255, 0, 57, 0.7)"
+    },
+    lumen: {
+      primary: "rgba(21, 140, 186, 0.70)",
+      info: "rgba(117, 202, 235, 0.90)",
+      success: "rgba(40, 182, 44, 0.70)",
+      warning: "rgba(255, 133, 27, 0.70)",
+      danger: "rgba(255, 65, 54, 0.70)"
+    },
+    paper: {
+      primary: "rgba(33, 150, 243, 0.35)",
+      info: "rgb(225, 190, 231)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(255, 224, 178)",
+      danger: "rgb(249, 189, 187)"
+    },
+    sandstone: {
+      primary: "rgba(50, 93, 136, 0.3)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    simplex: {
+      primary: "rgba(217, 35, 15, 0.25)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    },
+    yeti: {
+      primary: "rgba(0, 140, 186, 0.298039)",
+      info: "rgb(217, 237, 247)",
+      success: "rgb(223, 240, 216)",
+      warning: "rgb(252, 248, 227)",
+      danger: "rgb(242, 222, 222)"
+    }
+  }
+  function themeColor(color) {
+    return themeColors[_options.theme][color];
+  }
+
+  FlexDashboard.prototype = {
+    constructor: FlexDashboard,
+    init: init,
+    isMobilePhone: isMobilePhone,
+    isFillPage: isFillPage,
+    themeColor: themeColor
+  };
+
+  return FlexDashboard;
+
+})();
+
+// utils
+window.FlexDashboardUtils = {
+  resizableImage: function(img) {
+    var src = img.attr('src');
+    var url = 'url("' + src + '")';
+    img.parent().css('background', url)
+                .css('background-size', 'contain')
+                .css('background-repeat', 'no-repeat')
+                .css('background-position', 'center')
+                .addClass('image-container');
+  },
+  setLocation: function(href) {
+    if (history && history.pushState) {
+      history.pushState(null, null, href);
+    } else {
+      window.location.replace(href);
+    }
+    setTimeout(function() {
+        window.scrollTo(0, 0);
+    }, 10);
+    this.manageActiveNavbarMenu();
+  },
+  showPage: function(href) {
+    $('ul.navbar-nav li a[href="' + href + '"]').tab('show');
+    var baseUrl = this.urlWithoutHash(window.location.href);
+    var loc = baseUrl + href;
+    this.setLocation(loc);
+  },
+  showLinkedValue: function(href) {
+    // check for a page link
+    if ($('ul.navbar-nav li a[data-toggle=tab][href="' + href + '"]').length > 0)
+      this.showPage(href);
+    else
+      window.open(href);
+  },
+  urlWithoutHash: function(url) {
+    var hashLoc = url.indexOf('#');
+    if (hashLoc != -1)
+      return url.substring(0, hashLoc);
+    else
+      return url;
+  },
+  urlHash: function(url) {
+    var hashLoc = url.indexOf('#');
+    if (hashLoc != -1)
+      return url.substring(hashLoc);
+    else
+      return "";
+  },
+  manageActiveNavbarMenu: function () {
+    // remove active from anyone currently active
+    $('.navbar ul.nav').find('li').removeClass('active');
+    // find the active tab
+    var activeTab = $('.dashboard-page-wrapper.tab-pane.active');
+    if (activeTab.length > 0) {
+      var tabId = activeTab.attr('id');
+      if (tabId)
+        $(".navbar ul.nav a[href='#" + tabId + "']").parents('li').addClass('active');
+    }
+  }
+};
+
+window.FlexDashboard = new FlexDashboard();
+
+// empty content
+window.FlexDashboardComponents.push({
+  find: function(container) {
+    if (container.find('p').length == 0)
+      return container;
+    else
+      return $();
+  }
+})
+
+// plot image
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.children('p')
+                    .children('img:only-child');
+  },
+
+  layout: function(title, container, element, fillPage) {
+    FlexDashboardUtils.resizableImage(element);
+  }
+});
+
+// plot image (figure style)
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.children('div.figure').children('img');
+  },
+
+  layout: function(title, container, element, fillPage) {
+    FlexDashboardUtils.resizableImage(element);
+  }
+});
+
+// htmlwidget
+window.FlexDashboardComponents.push({
+
+  init: function(dashboardContainer) {
+    // trigger "shown" after initial layout to force static htmlwidgets
+    // in runtime: shiny to be resized after the dom has been transformed
+    dashboardContainer.on('flexdashboard:layoutcomplete', function(event) {
+      setTimeout(function() {
+        dashboardContainer.trigger('shown');
+      }, 200);
+    });
+  },
+
+  find: function(container) {
+    return container.children('div[id^="htmlwidget-"],div.html-widget');
+  }
+});
+
+// gauge
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.children('div.html-widget.gauge');
+  },
+
+  flex: function(fillPage) {
+    return false;
+  },
+
+  layout: function(title, container, element, fillPage) {
+
+
+  }
+
+});
+
+// shiny output
+window.FlexDashboardComponents.push({
+  find: function(container) {
+    return container.children('div[class^="shiny-"]');
+  }
+});
+
+// datatables
+window.FlexDashboardComponents.push({
+  find: function(container) {
+    return container.find('.datatables');
+  },
+  flex: function(fillPage) {
+    return fillPage;
+  }
+});
+
+// bootstrap table
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    var bsTable = container.find('table.table');
+    if (bsTable.length !== 0)
+      return bsTable;
+    else
+      return container.find('tr.header').parent('thead').parent('table');
+  },
+
+  flex: function(fillPage) {
+    return fillPage;
+  },
+
+  layout: function(title, container, element, fillPage) {
+
+    // alias variables
+    var bsTable = element;
+
+    // fixup xtable generated tables with a proper thead
+    var headerRow = bsTable.find('tbody > tr:first-child > th').parent();
+    if (headerRow.length > 0) {
+      var thead = $('<thead></thead>');
+      bsTable.prepend(thead);
+      headerRow.detach().appendTo(thead);
+    }
+
+    // improve appearance
+    container.addClass('bootstrap-table');
+
+    // for fill page provide scrolling w/ sticky headers
+    if (fillPage) {
+      // force scrollbar on overflow
+      container.addClass('flowing-content-shim');
+
+      // stable table headers when scrolling
+      bsTable.stickyTableHeaders({
+        scrollableArea: container
+      });
+    }
+  }
+});
+
+// embedded shiny app
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.find('iframe.shiny-frame');
+  },
+
+  flex: function(fillPage) {
+    return fillPage;
+  },
+
+  layout: function(title, container, element, fillPage) {
+    if (fillPage) {
+      element.attr('height', '100%');
+    } else {
+      // provide default height if necessary
+      var height = element.get(0).style.height;
+      if (!height)
+        height = element.attr('height');
+      if (!height)
+        element.attr('height', 500);
+    }
+  }
+});
+
+// shiny fillRow or fillCol
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.find('.flexfill-container');
+  },
+
+  flex: function(fillPage) {
+    return fillPage;
+  },
+
+  layout: function(title, container, element, fillPage) {
+    if (fillPage)
+      element.css('height', '100%');
+    else {
+      // provide default height if necessary
+      var height = element.get(0).style.height;
+      if (height === "100%" || height === "auto" || height === "initial" ||
+          height === "inherit" || !height) {
+        element.css('height', 500);
+      }
+    }
+  }
+});
+
+// valueBox
+window.FlexDashboardComponents.push({
+
+  type: "custom",
+
+  find: function(container) {
+    if (container.find('span.value-output, .shiny-valuebox-output').length)
+      return container;
+    else
+      return $();
+  },
+
+  flex: function(fillPage) {
+    return false;
+  },
+
+  layout: function(title, container, element, fillPage) {
+
+    // alias variables
+    var chartTitle = title;
+    var valueBox = element;
+
+    // add value-box class to container
+    container.addClass('value-box');
+
+    // value paragraph
+    var value = $('<p class="value"></p>');
+
+    // if we have shiny-text-output then just move it in
+    var valueOutputSpan = [];
+    var shinyOutput = valueBox.find('.shiny-valuebox-output').detach();
+    if (shinyOutput.length) {
+      valueBox.children().remove();
+      shinyOutput.html("&mdash;");
+      value.append(shinyOutput);
+    } else {
+      // extract the value (remove leading vector index)
+      var chartValue = valueBox.text().trim();
+      chartValue = chartValue.replace("[1] ", "");
+      valueOutputSpan = valueBox.find('span.value-output').detach();
+      valueBox.children().remove();
+      value.text(chartValue);
+    }
+
+    // caption
+    var caption = $('<p class="caption"></p>');
+    caption.append(chartTitle);
+
+    // build inner div for value box and add it
+    var inner = $('<div class="inner"></div>');
+    inner.append(value);
+    inner.append(caption);
+    valueBox.append(inner);
+
+    // add icon if specified
+    var icon = $('<div class="icon"><i></i></div>');
+    valueBox.append(icon);
+    function setIcon(chartIcon) {
+      var iconLib = "";
+      var iconSplit = chartIcon.split(" ");
+      if (iconSplit.length > 1) {
+        iconLib = iconSplit[0];
+        chartIcon = iconSplit.slice(1).join(" ");
+      } else {
+        var components = chartIcon.split("-");
+        if (components.length > 1)
+          iconLib = components[0];
+      }
+      icon.children('i').attr('class', iconLib + ' ' + chartIcon);
+    }
+    var chartIcon = valueBox.attr('data-icon');
+    if (chartIcon)
+      setIcon(chartIcon);
+
+    // set color based on data-background if necessary
+    var dataBackground = valueBox.attr('data-background');
+    if (dataBackground)
+      valueBox.css('background-color', bgColor);
+    else {
+      // default to bg-primary if no other background is specified
+      if (!valueBox.hasClass('bg-primary') &&
+          !valueBox.hasClass('bg-info') &&
+          !valueBox.hasClass('bg-warning') &&
+          !valueBox.hasClass('bg-success') &&
+          !valueBox.hasClass('bg-danger')) {
+        valueBox.addClass('bg-primary');
+      }
+    }
+
+    // handle data attributes in valueOutputSpan
+    function handleValueOutput(valueOutput) {
+
+      // caption
+      var dataCaption = valueOutput.attr('data-caption');
+      if (dataCaption)
+        caption.html(dataCaption);
+
+      // icon
+      var dataIcon = valueOutput.attr('data-icon');
+      if (dataIcon)
+        setIcon(dataIcon);
+
+      // color
+      var dataColor = valueOutput.attr('data-color');
+      if (dataColor) {
+        if (dataColor.indexOf('bg-') === 0) {
+          valueBox.css('background-color', '');
+          if (!valueBox.hasClass(dataColor)) {
+             valueBox.removeClass('bg-primary bg-info bg-warning bg-danger bg-success');
+             valueBox.addClass(dataColor);
+          }
+        } else {
+          valueBox.removeClass('bg-primary bg-info bg-warning bg-danger bg-success');
+          valueBox.css('background-color', dataColor);
+        }
+      }
+
+      // url
+      var dataHref = valueOutput.attr('data-href');
+      if (dataHref) {
+        valueBox.addClass('linked-value');
+        valueBox.off('click.value-box');
+        valueBox.on('click.value-box', function(e) {
+          window.FlexDashboardUtils.showLinkedValue(dataHref);
+        });
+      }
+    }
+
+    // check for a valueOutputSpan
+    if (valueOutputSpan.length > 0) {
+      handleValueOutput(valueOutputSpan);
+    }
+
+    // if we have a shinyOutput then bind a listener to handle
+    // new valueOutputSpan values
+    shinyOutput.on('shiny:value',
+      function(event) {
+        var element = $(event.target);
+        setTimeout(function() {
+          var valueOutputSpan = element.find('span.value-output');
+          if (valueOutputSpan.length > 0)
+            handleValueOutput(valueOutputSpan);
+        }, 10);
+      }
+    );
+  }
+});
+</script>
+
+<div id="dashboard-container">
 
 <div id="column" class="section level2" data-width="650">
 <h2>Column</h2>
 <div id="chart-a" class="section level3">
 <h3>Chart A</h3>
-<pre class="r"><code>pal = colorFactor(&quot;viridis&quot;, NULL)
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
-restaurants_df %&gt;%
-  leaflet() %&gt;%
-  addProviderTiles(providers$CartoDB.Positron) %&gt;%
-  addCircleMarkers(~long, ~lat, radius = 1, color = ~pal(grade), popup = ~restaurant_name) %&gt;%
-    addLegend(&quot;bottomright&quot;, pal = pal, values = ~grade,
-    title = &quot;Restaurant Grade&quot;,
-    opacity = 1)</code></pre>
-<div id="htmlwidget-a502e33fbafe7aed43d3" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a502e33fbafe7aed43d3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[40.82873,40.830643,40.885216,40.889687,40.821865,40.843365,40.837757,40.88671,40.892845,40.852745,40.888565,40.88796,40.863525,40.84627,40.849556,40.832508,40.85063,40.877327,40.82845,40.85453,40.85559,40.885822,40.86542,40.81782,40.86201,40.838253,40.845856,40.844955,40.865463,40.862934,40.85391,40.9071,40.8989,40.867764,40.845142,40.899292,40.854385,40.893955,40.857635,40.845512,40.850628,40.843014,40.907043,40.864487,40.86011,40.84619,40.82866,40.835293,40.87958,40.812675,40.82429,40.825027,40.857296,40.84348,40.83487,40.88588,40.827145,40.855324,40.876987,40.829224,40.846664,40.832504,40.887234,40.898106,40.868023,40.86082,40.84188,40.8542,40.871433,40.831764,40.86823,40.83493,40.83407,40.889164,40.905552,40.835556,40.869236,40.816093,40.903664,40.816116,40.82859,40.832443,40.82598,40.9055,40.838177,40.854343,40.82806,40.828663,40.886135,40.819492,40.846188,40.849937,40.828224,40.82109,40.827286,40.833523,40.90518,40.84608,40.86184,40.813934,40.836205,40.836887,40.871273,40.805965,40.853878,40.877625,40.81985,40.895615,40.878887,40.853218,40.853916,40.82367,40.86406,40.84686,40.820957,40.854446,40.881454,40.883343,40.887947,40.86239,40.88273,40.85792,40.898735,40.886395,40.817043,40.879646,40.835064,40.83607,40.8677,40.830738,40.840935,40.83627,40.854153,40.853977,40.823135,40.818104,40.836025,40.860695,40.85629,40.867825,40.84084,40.834343,40.865402,40.81577,40.873318,40.85664,40.836674,40.88736,40.896645,40.83787,40.835625,40.887615,40.82795,40.853897,40.851254,40.81001,40.868896,40.891693,40.87287,40.86185,40.824368,40.804665,40.833652,40.859234,40.89546,40.834396,40.83951,40.906105,40.84387,40.813274,40.884132,40.89008,40.83051,40.834465,40.867382,40.82689,40.822388,40.840534,40.83603,40.865475,40.832508,40.836933,40.817333,40.907207,40.816425,40.839912,40.897995,40.82751,40.82143,40.830425,40.85531,40.87878,40.83362,40.81324,40.830727,40.83226,40.80671,40.853745,40.82318,40.889385,40.8566,40.847584,40.859203,40.81195,40.809185,40.809185,40.809185,40.86553,40.83069,40.854908,40.876915,40.84403,40.845978,40.90754,40.84398,40.815483,40.90732,40.848206,40.875805,40.809185,40.869087,40.864815,40.803436,40.839504,40.840603,40.86183,40.8363,40.82926,40.8623,40.819675,40.812363,40.84308,40.84621,40.83247,40.885254,40.87681,40.82912,40.82705,40.828182,40.828358,40.889633,40.89301,40.883152,40.86542,40.904934,40.831886,40.885857,40.892967,40.862717,40.82913,40.887234,40.830395,40.88913,40.88913,40.86527,40.838924,40.878296,40.886726,40.826847,40.844418,40.86179,40.885292,40.879646,40.846355,40.852085,40.836063,40.833626,40.847443,40.865467,40.8497,40.843967,40.812515,40.83759,40.84247,40.846165,40.878735,40.85405,40.827374,40.840473,40.828533,40.875088,40.814903,40.825417,40.87965,40.85254,40.85733,40.85586,40.83052,40.819572,40.90547,40.840904,40.87727,40.883953,40.886803,40.846355,40.831963,40.90277,40.85515,40.807713,40.83617,40.845943,40.888855,40.858585,40.814873,40.820766,40.874382,40.843174,40.89597,40.899982,40.896343,40.897514,40.87625,40.81168,40.888943,40.878086,40.83185,40.823265,40.81653,40.86139,40.854534,40.910316,40.828384,40.817425,40.86188,40.807785,40.839367,40.86523,40.903893,40.82677,40.89476,40.865765,40.86272,40.900257,40.867943,40.81284,40.836906,40.879974,40.814068,40.85229,40.84395,40.827583,40.885773,40.879448,40.854397,40.80773,40.85422,40.829258,40.867207,40.85618,40.855488,40.81311,40.85497,40.826797,40.820988,40.829536,40.90608,40.808598,40.817112,40.843845,40.877586,40.84424,40.81169,40.858242,40.846794,40.865482,40.855106,40.825783,40.877506,40.885742,40.829506,40.834328,40.83071,40.903713,40.821552,40.87908,40.85563,40.90353,40.82827,40.85645,40.878384,40.85213,40.815876,40.832993,40.90149,40.80903,40.89088,40.861996,40.85348,40.82592,40.822575,40.861195,40.885696,40.84642,40.877213,40.8168,40.81984,40.84793,40.86092,40.806393,40.829136,40.8573,40.829113,40.83421,40.88748,40.835987,40.844692,40.86526,40.897808,40.842598,40.88081,40.873016,40.82015,40.816605,40.83039,40.86092,40.82841,40.850895,40.82467,40.845463,40.844822,40.84793,40.874714,40.874714,40.871742,40.85088,40.862812,40.857956,40.814384,40.844265,40.836628,40.899128,40.890495,40.84793,40.880657,40.817364,40.865128,40.82677,40.84762,40.86114,40.837494,40.88276,40.84793,40.852135,40.88751,40.83039,40.841408,40.874954,40.83483,40.82569,40.90613,40.897873,40.84476,40.816826,40.825333,40.834106,40.824375,40.830944,40.851463,40.865185,40.869854,40.823586,40.843407,40.84799,40.819916,40.844807,40.83244,40.85438,40.88975,40.837547,40.853348,40.842594,40.8729,40.847057,40.823235,40.896896,40.807507,40.879833,40.828583,40.85219,40.826664,40.82,40.814354,40.80796,40.90647,40.84107,40.82401,40.836628,40.88318,40.896427,40.832,40.817566,40.827553,40.86403,40.84183,40.81525,40.835815,40.807747,40.86106,40.907097,40.88631,40.869667,40.876347,40.832638,40.828312,40.854828,40.832737,40.826984,40.872852,40.86956,40.83167,40.839817,40.844692,40.808628,40.84485,40.85124,40.865494,40.81695,40.90542,40.85602,40.878757,40.853806,40.86219,40.815792,40.82551,40.8184,40.872658,40.878826,40.872845,40.87142,40.86281,40.831947,40.836212,40.857094,40.86617,40.845493,40.876823,40.847305,40.886562,40.865837,40.863052,40.858334,40.85932,40.852325,40.818775,40.860394,40.85151,40.830967,40.833805,40.867172,40.873432,40.87656,40.853477,40.887226,40.88329,40.871967,40.849354,40.829113,40.837223,40.832794,40.830574,40.83127,40.85383,40.86509,40.847355,40.815228,40.86106,40.87765,40.884567,40.887585,40.809547,40.81429,40.829056,40.82211,40.843616,40.88313,40.825394,40.873688,40.85396,40.90032,40.82791,40.81474,40.834274,40.891155,40.902256,40.8514,40.832905,40.834087,40.829582,40.85571,40.822563,40.815754,40.88217,40.855824,40.855648,40.81947,40.817158,40.83617,40.856586,40.849083,40.83722,40.897648,40.859253,40.82021,40.82004,40.861996,40.82852,40.825504,40.863556,40.884346,40.905552,40.88589,40.82361,40.877583,40.876835,40.88594,40.855534,40.840946,40.83324,40.860027,40.836086,40.841034,40.856068,40.8669,40.892796,40.82659,40.81633,40.84108,40.83116,40.87411,40.851437,40.877277,40.84116,40.80796,40.864254,40.860027,40.860027,40.860027,40.860027,40.860027,40.860027,40.850243,40.826786,40.8476,40.895195,40.85999,40.852802,40.805866,40.87716,40.82551,40.828007,40.82569,40.812378,40.886154,40.87319,40.862244,40.873127,40.88177,40.81748,40.85103,40.829056,40.829056,40.829056,40.813313,40.83452,40.844166,40.82392,40.807644,40.85541,40.814976,40.80978,40.808487,40.855732,40.8334,40.846165,40.81582,40.84432,40.861828,40.862095,40.800957,40.8514,40.852146,40.83617],[-73.814316,-73.84989,-73.90058,-73.8204,-73.89738,-73.90338,-73.86459,-73.90704,-73.85767,-73.827545,-73.86005,-73.86037,-73.88897,-73.90175,-73.78737,-73.82892,-73.867805,-73.82953,-73.8808,-73.85467,-73.86767,-73.909935,-73.867516,-73.90551,-73.9017,-73.86363,-73.83149,-73.846756,-73.86594,-73.88968,-73.88796,-73.90403,-73.86745,-73.83124,-73.8453,-73.867516,-73.854546,-73.85706,-73.899605,-73.86469,-73.85163,-73.84486,-73.904045,-73.90385,-73.89298,-73.8481,-73.88111,-73.907936,-73.90431,-73.90225,-73.89267,-73.869965,-73.88608,-73.8359,-73.91959,-73.86153,-73.895004,-73.88776,-73.846535,-73.876465,-73.91308,-73.86419,-73.904816,-73.86728,-73.83135,-73.89825,-73.916504,-73.88874,-73.866905,-73.90373,-73.88208,-73.91956,-73.853516,-73.85971,-73.9071,-73.81798,-73.82481,-73.89644,-73.85018,-73.89643,-73.879005,-73.91667,-73.86209,-73.90046,-73.78311,-73.85451,-73.90711,-73.87816,-73.82784,-73.892944,-73.92012,-73.86462,-73.92569,-73.8969,-73.92066,-73.85802,-73.90151,-73.90473,-73.891205,-73.80286,-73.860985,-73.88629,-73.87698,-73.91426,-73.88716,-73.90572,-73.916046,-73.87584,-73.871506,-73.85363,-73.88899,-73.893845,-73.89117,-73.786354,-73.89689,-73.865395,-73.83826,-73.901695,-73.8313,-73.90139,-73.8493,-73.867584,-73.85504,-73.84785,-73.92292,-73.82472,-73.86307,-73.854996,-73.831215,-73.85706,-73.78584,-73.85314,-73.886795,-73.90214,-73.8907,-73.88358,-73.85521,-73.89789,-73.900406,-73.88408,-73.837654,-73.85034,-73.869064,-73.86451,-73.889305,-73.79096,-73.84683,-73.907196,-73.86703,-73.863396,-73.85504,-73.90731,-73.88093,-73.90844,-73.898796,-73.88114,-73.89629,-73.85833,-73.90513,-73.84332,-73.909615,-73.922325,-73.8569,-73.898155,-73.86352,-73.86097,-73.921364,-73.90431,-73.845634,-73.915924,-73.84936,-73.89812,-73.897125,-73.89461,-73.88372,-73.92646,-73.8671,-73.85495,-73.855194,-73.8649,-73.8522,-73.84652,-73.922775,-73.904,-73.89641,-73.87596,-73.854675,-73.90667,-73.866165,-73.81576,-73.88779,-73.9049,-73.929,-73.91594,-73.85708,-73.82761,-73.92717,-73.89947,-73.90018,-73.85959,-73.90068,-73.86698,-73.898705,-73.909546,-73.80207,-73.80207,-73.80207,-73.860214,-73.84758,-73.85496,-73.82973,-73.83967,-73.85904,-73.90391,-73.83005,-73.91818,-73.90397,-73.85605,-73.85002,-73.80207,-73.83057,-73.88884,-73.90599,-73.8584,-73.92165,-73.8923,-73.88458,-73.91634,-73.898415,-73.91343,-73.90332,-73.90029,-73.91844,-73.8643,-73.86189,-73.847046,-73.89188,-73.92637,-73.92453,-73.881905,-73.82049,-73.85758,-73.86303,-73.86744,-73.89696,-73.92998,-73.90993,-73.857605,-73.89673,-73.874466,-73.90714,-73.891785,-73.90223,-73.90223,-73.822464,-73.918465,-73.917145,-73.90705,-73.92532,-73.911316,-73.85764,-73.82731,-73.82472,-73.91737,-73.90414,-73.854935,-73.85717,-73.90824,-73.86581,-73.91656,-73.83004,-73.88787,-73.86631,-73.89384,-73.918755,-73.86548,-73.85428,-73.91746,-73.92235,-73.879776,-73.87948,-73.91864,-73.91794,-73.90627,-73.88993,-73.899666,-73.85557,-73.91062,-73.81755,-73.89794,-73.84248,-73.90597,-73.86259,-73.85425,-73.83181,-73.86603,-73.89647,-73.88678,-73.9196,-73.856346,-73.89218,-73.84313,-73.868004,-73.919876,-73.84843,-73.90154,-73.84542,-73.896736,-73.91053,-73.871956,-73.85507,-73.83649,-73.92608,-73.84215,-73.86583,-73.866425,-73.909164,-73.9018,-73.85759,-73.88548,-73.90316,-73.88155,-73.91715,-73.843315,-73.9191,-73.915436,-73.82238,-73.85,-73.88871,-73.856636,-73.886215,-73.90099,-73.86768,-73.88419,-73.90427,-73.86628,-73.90686,-73.919266,-73.864876,-73.78527,-73.92582,-73.90995,-73.86508,-73.89199,-73.889534,-73.902405,-73.897644,-73.89672,-73.84393,-73.88744,-73.9085,-73.89044,-73.89148,-73.9125,-73.87559,-73.90432,-73.92325,-73.92171,-73.84563,-73.84518,-73.914474,-73.90363,-73.867584,-73.84876,-73.86454,-73.88669,-73.891914,-73.82953,-73.91046,-73.874626,-73.8505,-73.91043,-73.85016,-73.86686,-73.84319,-73.85545,-73.8503,-73.82395,-73.89208,-73.905174,-73.88452,-73.90734,-73.905754,-73.86314,-73.91838,-73.89771,-73.89098,-73.90765,-73.82136,-73.902534,-73.89719,-73.91016,-73.89345,-73.84588,-73.92046,-73.9133,-73.84489,-73.89007,-73.918594,-73.875824,-73.886086,-73.87591,-73.85156,-73.90726,-73.90755,-73.90684,-73.82244,-73.854866,-73.85218,-73.8643,-73.87858,-73.90143,-73.86112,-73.81573,-73.89007,-73.881386,-73.89443,-73.820366,-73.902954,-73.90926,-73.84489,-73.892166,-73.892166,-73.87742,-73.90155,-73.89413,-73.88675,-73.89297,-73.91454,-73.88554,-73.867485,-73.89804,-73.84489,-73.883255,-73.897995,-73.89298,-73.88871,-73.90753,-73.89697,-73.88767,-73.89331,-73.84489,-73.903244,-73.90727,-73.81573,-73.92216,-73.87979,-73.908195,-73.91883,-73.904305,-73.867256,-73.86401,-73.88682,-73.92601,-73.85252,-73.90964,-73.920265,-73.84414,-73.83007,-73.89044,-73.9231,-73.91284,-73.844894,-73.91603,-73.90896,-73.851166,-73.85455,-73.89825,-73.84108,-73.91254,-73.8539,-73.87847,-73.89707,-73.8947,-73.85544,-73.91927,-73.84207,-73.8791,-73.90886,-73.92276,-73.91599,-73.91905,-73.918976,-73.9068,-73.84273,-73.82004,-73.88554,-73.86302,-73.87155,-73.82737,-73.9173,-73.924484,-73.86161,-73.90181,-73.90019,-73.914345,-73.913315,-73.89769,-73.90403,-73.86129,-73.89015,-73.84847,-73.85938,-73.91694,-73.88819,-73.90608,-73.905235,-73.90509,-73.84272,-73.91905,-73.86868,-73.830734,-73.91579,-73.830826,-73.908264,-73.85837,-73.92109,-73.90096,-73.85564,-73.87268,-73.887474,-73.901566,-73.90288,-73.85937,-73.92229,-73.85447,-73.87329,-73.8896,-73.86581,-73.90841,-73.86612,-73.90268,-73.88626,-73.8855,-73.90218,-73.86466,-73.83243,-73.86117,-73.867355,-73.8586,-73.885056,-73.899055,-73.903946,-73.91886,-73.89227,-73.909485,-73.86183,-73.91576,-73.89667,-73.87968,-73.847855,-73.88938,-73.904785,-73.901726,-73.87761,-73.910774,-73.87591,-73.90679,-73.89795,-73.90324,-73.850876,-73.88337,-73.82205,-73.78654,-73.900185,-73.89769,-73.90571,-73.86227,-73.86057,-73.92256,-73.919556,-73.928276,-73.9081,-73.91292,-73.863045,-73.89049,-73.88501,-73.888954,-73.8618,-73.9247,-73.89994,-73.91675,-73.850266,-73.85139,-73.8954,-73.863,-73.852684,-73.90652,-73.88644,-73.90041,-73.9252,-73.82338,-73.90555,-73.895966,-73.90205,-73.92184,-73.8896,-73.90069,-73.89176,-73.92231,-73.867195,-73.8991,-73.9133,-73.91597,-73.90561,-73.880035,-73.899185,-73.858345,-73.84922,-73.9071,-73.90991,-73.89398,-73.84667,-73.82977,-73.90988,-73.88751,-73.84255,-73.82759,-73.88791,-73.85483,-73.8427,-73.855675,-73.88426,-73.85551,-73.85739,-73.91861,-73.84275,-73.91025,-73.88411,-73.844154,-73.90596,-73.87917,-73.918976,-73.89152,-73.88791,-73.88791,-73.88791,-73.88791,-73.88791,-73.88791,-73.85152,-73.88915,-73.86699,-73.85639,-73.893105,-73.842705,-73.91432,-73.8296,-73.85937,-73.850136,-73.91883,-73.88484,-73.90699,-73.87877,-73.827576,-73.87871,-73.87927,-73.898186,-73.90434,-73.928276,-73.928276,-73.928276,-73.91699,-73.92849,-73.91433,-73.91297,-73.91918,-73.8873,-73.90006,-73.89007,-73.928986,-73.85551,-73.91444,-73.918755,-73.919716,-73.91467,-73.89203,-73.89496,-73.91363,-73.8954,-73.864876,-73.856346],1,null,null,{"interactive":true,"className":"","stroke":true,"color":["#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#FDE725","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#FDE725","#440154","#FDE725","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#FDE725","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#FDE725","#440154","#FDE725","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154"],"fillOpacity":0.2},null,null,["MANHEM CLUB","THE NEW STARLING ATHLETIC CLUB OF THE BRONX","THE PUNCH BOWL","IHOP","WHITE CASTLE","LA LECHONERA CRIOLLA","JOE'S PIZZA","ROLEN BAGELS","MCDONALD'S","VILLA BARONE","KINGSTON TROPICAL BAKERY","CHAMPION BAKERY","EL VAQUERO BARRAS","WHITE CASTLE","ARTIE'S","CROSSTOWN DINER","PARK BILLIARDS","CAPRI II PIZZA","NACIONAL BAKERY #1","PASTA PASTA RESTAURANT","MCDONALD'S","HUNAN BALCONY","KENNEDY FRIED CHICKEN","BONA PIZZA","DIAMANTE POBLANO RESTAURANT","ARCHER SPORTS BAR","SHAMROCK INN","MCDONALD'S","ROMA PIZZA","LOS GIRASOLES RESTAURANT","CAFE AL MERCATO","RIVERDALE STEAK HOUSE","BEHAN'S PUB","CHECKERS","PINE BAR & GRILL","ANGELICA'S BAKERY","PORTOFINO CAFE","ALI'S ROTI SHOP","SUSIE'S PIES","DOMINO'S","HONG KONG RESTAURANT","CARIDAD","MADISON'S","LIN HOME CHINESE RESTAURA","DOMINO'S","THE WILLIAMSBRIDGE TAVERN","VISTA HERMOSA DELI RESTAURANT","DOMINO'S","MR MCGOO'S","WILBEL PIZZA","LA NUEVA GIRALDA BAKERY","CEA LO CAFE","MUG-Z'S SPORTS BAR","FRANK'S PIZZERIA/DA FRANCO AND TONY RESTAURANT","NB. NATIONAL BAKERY","NEW RAINBOW RESTAURANT","LA MORENA FOOD","M&G Restaurant","FOOD HUT RESTAURANT & BAKERY","EDISON RESTAURANT","LA MONEDA RESTAURANT","ISLA OF VERDE CAFE","YOKOHAMA JAPANESE RESTAURANT","RAMBLING HOUSE","POPEYES LOUISIANA KITCHEN","MOM'S BAKERY","ESTRELLA BAR & RESTAURANT","MARIO'S RESTAURANT","K & Q RESTARUANT","FULTON AVE CAFE","GREAT WALL","CORNER STYLE","EVO COCKTAIL LOUNGE & RESTAURANT","THE PIZZA PLACE","THE JOHN J O'CONNOR RESIDENCE","LORETTA'S PIZZA","AMC THEATRES","EL VALLE RESTAURANT","GOLDEN KRUST CARIBBEAN BAKERY & GRILL","NEW RED STAR","NATIONAL BAKERY","HALAL COFFEE SHOP RESTAURANT","MCDONALD'S","BECCOFINO","MORRIS YACHT & BEACH CLUB","SORRENTO'S PIZZERIA","JALLOH FAMILY RESTAURANT","MCDONALD'S","COZY COTTAGE RESTAURANT","HUNTSPOINT CHINESE RESTAURANT","EL NUEVO YOLY RESTAURANT","THE GRILL HOUSE","THE DUGOUT","KENNEDY CHICKEN AND PIZZA","CHRIS SUPER DELI","MCDONALD'S","DINO'S PIZZA","PROMESA CAFETERIA","GOLDEN KRUST CARIBBEAN BAKERY & GRILL","LOCUST POINT YACHT CLUB","GOLDEN KRUST CARIBBEAN BAKERY & GRILL","POPEYES LOUISIANA KITCHEN","LA NUEVA ESTRELLA BAR & RESTAURANT","PIO PIO","SHILA BAR & WINE","DUNKIN' DONUTS","JIMBO'S HAMBURGER PLACE","KELLY'S PUB","MCDONALD'S","KIRAKU SUSHI JAPANESE RESTAURANT","ESTRELLITA POBLANA III","EL VALLE RESTAURANT","CROWN FRIED CHICKEN","LICKETY SPLIT","NATIONAL BAKERY","DUKAGJINI BUREKTORE","KLASSIQUE","CARVEL ICE CREAM","DYRE AVENUE DINER","EL VALLE RESTAURANT","BLUE MOUNTAIN CUISINE RESTAURANT","DUNKIN' DONUTS","DOMINO'S","KENNEDY CHICKEN & PIZZA","JANEYDI BAKERY","GOLDEN KRUST CARIBBEAN BAKERY & GRILL","NEW HONG FA","TAQUERIA TLAXCALLI","PANERA BREAD","D'ANGELO'S PIZZA, PANCHO'S MEXICAN RESTAURANT","CITY ISLAND YACHT CLUB","SABOR LATINO SEAFOOD RESTAURANT","ANTONIO'S TRATTORIA","LA ESTRELLA RESTAURANT","T-BROTHERS PIZZERIA","VALENCIA COFFEE ROOM","JERRY'S PIZZA","SUBWAY","CARIDAD RESTAURANT","ROSE FLOWER","BURGER KING","LA COCINA BORICUA","HONG KONG KITCHEN","LIN KEE HONG CHINESE RESTAURANT","CHOI YUAN","CITY ISLAND LOBSTER HOUSE","GEORGE'S DINER-CAFE","SALVATORES OF SOHO","BELLA NAPOLI","PARKCHESTER FISH & CHIPS","FRIENDS SPORTS BAR","GREEK EXPRESS","EL CHICANITO SPORTS BAR","ACCRA RESTAURANT","THE POINT AFRICAN CARIBBEAN RESTAURANT","THE POINT CAFE & GRILL","LJ PIZZA","JIMBO'S HAMBURGER PALACE","NEW YUNG HONG","DUNKIN' DONUTS","DUNKIN' DONUTS","DUNKIN' DONUTS","HALAL MUSA CHINESE FOOD","LOS BALBUENA RESTAURANT","DUNKIN' DONUTS","CHAN'S VILLAGE","NO. 1 CHINA GARDEN KITCHEN","CARLOS AND GABBY'S CANTINA GRILL","M&R DELI & COFFEE SHOP","RUINAS DE COPAN","CARIBBEAN CONNECTION CATERING SERVICES INC RESTAURANT","DUNKIN' DONUTS","JOHNNY'S BAKERY","SUBWAY","ROCCO'S PIZZA","STAN'S SPORTS BAR","WORLD FAMOUS NEW ORLEANS CHICKEN","L&Y WING HING CHINESE RESTAURANT","KING WOK","NEW BOE SUN RESTAURANT","PONTE EN FORMA","KING HOUSE","DRAGON YUAN","TOKYO HOUSE JAPANESE RESTAURANT","SUBWAY","ALITALIA PIZZA RESTAURANT","CHINA PEKING HOUSE","BASICS CAFETERIA","GOLDEN CITY CHINESE KITCHEN","WHITE CROSS FISHING CLUB BAR & GRILL","GERBASI RISTORANTE","EL ECONOMICO RESTAURANT","JING XIN RESTAURANT","NEW WOK","GREAT WALL RESTAURANT","EL PAISANO PIZZERIA","EL PANCHO STEAK HOUSE","LEE WANG RESTAURANT","GREAT WALL KITCHEN","MANGO'S RESTAURANT & CATERING","LA PENDA RESTAURANT","ISTANBUL CAFE OF WHITE PLAINS","DUNKIN' DONUTS","MEXICOSINA","MCMURRAY HALL (SUNY MARITIME)","THE LIBRARY/OUT TAKES QUICK CUISINE","THE SUNY MARITIME U. VANDERCLUTE","PAPI NICE BAR","TAKE AWAY CAFE in REBECCA REHAB CENTER","LIBERTY DINER","TOWNHOUSE RESTAURANT","TOWER CAFE (HUTCH METRO CENTER)","VAN NEST LANES SNACK BAR","ADDEO'S RIVERDALE PIZZERIA","JOE'S PIZZA","CHECKERS","RIVERDALE BAGELS","LUCIANO'S PIZZA","GOOD TASTE CHINESE RESTAURANT","SUNY MARITIME UNIVERSITY (S AND E CAFE)","MCDONALD'S","FLORINDA RESTAURANT","VITHAS COFFEE SHOP","SING HING RESTAURANT","EMERGENCY SNACK BAR","LITTLE CHINA CITY","CHINESE FRIED CHICKEN","DORO'S JAMAICAN RESTAURANT","KENNEDY FRIED CHICKEN","DOMINO'S","LA ESPIGA MEXICAN RESTAURANT","MELA'S CAFE","EMPIRE CHINESE RESTAURANT ZHENG","KING SUNSHINE JERK CENTER","DOMINO'S","DOMINO'S","LUKE'S PIZZA","YANKEE BAR & GRILL/MONUMENTAL EMPANADAS","NEW SUNFLOWER","SABANA LOUNGE","WENDY'S","GOLDEN KRUST CARIBBEAN BAKERY & GRILL","GOLD STAR JERK CENTER","JR PRIMOS RESTAURANT","BRONX BURGER HOUSE","CHINESE FRIED CHICKEN","METATE MEXICAN RESTAURANT","KENNEDY'S CHICKEN & SANDWICHES","Fordham Restaurant","NEW FLYING DRAGON","THE CORNER CAFE & BAKERY/PIZZA PLUS","HAPPY WOK NO.1","CAFE 1853","LOCKE'S LOFT","ANDY'S TERIYAKI & TACO","SUN FUNG CHINESE RESTAURANT","SIAM SQAURE THAI CUISINE","TINY'S DINER","FLAVAS INTERNATIONAL GRILL","GRAND CAFE","IMPERIAL RESTAURANT DELI","MCDONALD'S","CHINA INN BUFFET","EL VALLE","MI CASA BAKERY & COFFEE SHOP","PREMIUM SWEETS & RESTAURANT","PIZZA HUT","KENNEDY FRIED CHICKEN","ISIS RESTAURANT","U.S KENNEDY FRIED CHICKEN","ZHANG'S CHINA PALACE","HUNTS POINT JUICE BAR & DELI","KENNDY FRIED CHICKEN","HOME GARDEN","XING SHENG","GREEN GARDEN HEALTH FOODS","ENZO'S RESTAURANT","KENNEDY FRIED CHICKEN","JOHNNY'S FRIED CHICKEN","EL MOLCAJETE RESTAURANT.","BAINBRIDGE BAKERY","TEXAS CHICKEN &BURGER","NEW GOOD TASTE CHINESE RESTAURANT","ESTRELLITA POBLANA","RIKY & SEPI SPORT CAFE","YANG'S GOOD TASTE","PEACHWAVE FROZEN YOGURT","EL NUEVO BOHIO RESTAURANT","TOSCA CAFE","NEW NAGOYA SUSHI","JULESRUBY LOUNGE RENTAL","ROSARINA BAKERY","GOLDEN KRUST","FRONT PAGE RESTAURANT","15 FLAVORS","SABROSURA 2 RESTAURANT","CARIBBEAN GRILL RESTAURANT","TRA DI NOI","EL VIEJO GRAN CAFE","CROWN FRIED CHICKEN","KENNEDY FRIED CHICKEN & PIZZA","CHINA KING","NO 8 CHINESE RESTAURANT","JS PERRY'S DINER","LECHONERA EL SAZON CRIOLLO","FOO-HING KITCHEN","HEALTHY LIFESTYLE","TONY & VAL'S","WAVE HILL","THE TOMBSTONE SALOON","RINCON LATINO RESTAURANT","THE DUMPLIN SHOP","TWOSHA'S","GOLDEN FOUNTAIN RESTAURANT","GOLDEN KRUST CARIBBEAN BAKERY & GRILL","KENNEDY FRIED CHICKEN","K & L RESTAURANT AND CATERING SERVICE","RMM LOUNGE","YANG'S HAPPY GARDEN","KENNEDY FRIED CHICKEN","NONA'S PIZZA","DOMINO'S","HONG KONG JACKIE CHINESE RESTAURANT","Yummy House","VILLA TAPIA RESTAURANT","WING LING","JADE PALACE","KENNEDY FRIED CHICKEN","NEW SHENG CHINESE KITCHEN","CARIFESTA RESTAURANT","EL NUEVO TENAMPA RESTAURANTE","DUNKIN' DONUTS","THE AVENUE","BEDFORD PIZZA CAFE","3-J RESTAURANT AND PIZZA","MING GARDEN RESTAURANT","MI LINDO SAN MIGUELITO","MADISON CAFE","NEW SPRING GARDEN","RAY'S CAFE AND RESTAURANT","DUNKIN' DONUTS","PALACE OF JAPAN","SING LOON ZHENG KITCHEN","HALAL HUT FRIED CHICKEN & PIZZA","OASIS COFFEE SHOP","KENNEDY FRIED CHICKEN","U.S. KENNEDY FRIED CHICKEN PIZZA","BROTHER'S PIZZERA","GOLDEN CHINA PAVILION","PEACHWAVE FROZEN YOGURT","KENNEDY FRIED CHICKEN","BELLA PIZZA OF BRONX","PASTORA RESTAURANT PIZZERIA","I LOVE PIZZA","CHINA GARDEN","BLOCK PIZZA","ONIS RESTAURANT","KENNEDY FRIED CHICKEN","KAI SUSHI ASIAN FUSION","LITTLE CAESARS","KENNEDY FRIED CHICKEN","GOOD TASTE CHINESE FOOD","CHINA MIA EXOTIC ASIAN FOOD, YOGURT & JUICE BAR","NPR FOOD SOLUTIONS","ALLERTON DINER","LEE'S RESTAURANT","LECHONERA POLLO SABROSO BORIQUENA","KENNEDY FRIED CHICKEN","DUNKIN' DONUTS","THE NEW RANCH","PAPA JOHN'S","EL MOLINA RESTAURANT","LITTLE CAESARS","MS CARIDAD RESTAURANT","AFRICAN LAST STOP","Golden Eagle Diner","241ST CAFE RESTAURANT","FRANK AND JOE'S DELI","TINA  RESTAURANT","SUBWAY","NEW DRAGON SEA CHINESE RESTAURANT","TRIPLE 8 RESTAURANT","US KENNEDY FRIED CHICKEN AND PIZZA","WONDERFUL RESTAURANT","LOK HIN","BURGER KING","KENNEDY FRIED CHICKEN","DON PANCHOLO LECHONERA RESTAURANT","VAPOR LOUNGE","COME & GET SUM FISH & CHIPS","J & LEE'S DELI","FRESCO TORTILLAS","SUBWAY","TRANQUILITY BAR & LOUNGE","MERRY LAND BUFFET","DUNKIN' DONUTS","NRGIZE LIFE STYLE CAFE","SUBWAY","LIN CHINA WOK","DUNKIN' DONUTS","SIMON'S","STAR BILLIARDS","BLIMPIE","BLACKSTONE  BAR AND GRILL","WO KAI CHINESE RESTAURANT","NEW CHINA RESTAURANT","SUBWAY","KAIETEUR RESTAURANT","PEKING HOUSE","VYBES KITCHEN","LIN'S NO 1 CHINESE RESTAURANT","GIOVANIS BIG PIZZA","MEXZZARELLA PIZZA","AMERICAN TURNERS NEW YORK","STARBUCKS","BRAVO AFRICAN RESTAURANT","CHINA WOK KING CORP","15 FLAVORS","PRAIA","KENNEDY FRIED CHICKEN","DUNKIN' DONUTS","CARMEN CAFE (Carmen Hall)","UNDERGROUND LOUNGE","PAPA JOHN'S","BURNSIDE BEER & WINE CAFETERIA","DUNKIN' DONUTS, BASKIN ROBBINS","THE BLUE GOOSE","MILLY'S CORNER RESTAURANT AND BAR","ALTAGRACIA RESTAURANT","TACO BELL","KATONAH PIZZA","ASIAN TOKYO JAPANESE CUISINE","APPLEBEE'S","M & R PIZZA","JERRY'S COFFEE SHOP","SHUN YUEN CHINESE RESTAURANT","KENNEDY FRIED CHICKEN","DELICIOUS FRUIT","KENNEDY FRIED CHICKEN","DUNKIN' DONUTS","SORRENTOS PIZZA","RESIDENCE INN BY MARRIOTT BRONX","AA CHINESE RESTAURANT","KAI FAN ASIAN CUISINE","THE WATERFRONT RESTAURANT","EL NUEVO PATIO","MEI PANDA HOUSE / TOP FRESH TORTILLAS","IDN INTERNATIONAL RESTAURANT","STARBUCKS","RIVERDALE K GRILL HOUSE","JUST ONE TAVERN","VIDA SALUDABLE MARIA","NEW PEPERONI'S PIZZA","HAPPY WOK","PACKSUN HALAL CHICKEN","NEW 509 PIZZERIA INC","XM CAFE","DUNKIN' DONUTS","OUTBACK STEAKHOUSE","KENNEDY FRIED CHICKEN","NEW LIN'S GARDEN NY","KING DRAGON RESTAURANT","MONTE GRAB & GO MARKET","LANDIN MACARONI & CHEESE","CONEJA JUICE BAR","MASTER SMOOTHIE","SUBWAY","FERNANDEZ BURRITO SHOP","ACRI CAFE","MORRIS HEIGHTS PIZZA","LIN'S GARDEN RESTAURANT","MOJA RESTAURANT (Curry & Grill)","CACHAPA CACHAPA","NEW EAST STAR","GOLDEN RING","EL PARAISO RESTAURANT","WENDY'S","PAPA JOHN'S","PAPA JOHN'S","ASIA GRILL EXPRESS","FITNESS AND NUTRITION CENTER","PAPA JOHN'S","FAST WOK","SKYVIEW CAFE","TEXAS CHICKEN","UNCLE AL'S","BURGER KING","FRANKS PIZZA AND PASTA","THE HIDEOUT TAVERN","MAMA  PUEBLA","619 BAR & RESTAURANT EL SALVADORENO","SUBWAY","CHANDNI CHOWK","CHELSEA CRAFT  BREWING COMPANY","NEW LITTLE CHOPSTICKS","LIU GOLDEN POND CHINESE RESTAURANT","LIANG'S GARDEN","POLLO CAMPERO","GOLDEN PHOENIX CHINESE RESTAURANT","DEUCE & BAM GOOD DINE RESTAURANT","PIQUE 86 RESTAURANT","EL VALLE RESTAURANTE","KENNEDY FRIED CHICKEN","TWO MAMA EMPANADA RESTAURANT","TAPAS ITALIANO","SPRING GARDEN CHINESE RESTAURANT","NEW GOLDEN DRAGON CHINESE","DELICIOUS PIZZA CAFE","NO. 1 CHINESE RESTAURANT","HELEN'S KITCHEN","TANQUERIA LUPITA II","LETTUCE EAT","TENARES RESTAURANT","PELHAM DELITE","AFRICAN HOME RESTAURANT","DOMINIC'S GOURMET PIZZA","CAPRI CAKES","NEW CHINA","NAPOLITANA PIZZA","EL ENCUENTRO RESTAURANT BAR CORP","VALENTINA'S CAFE","SUBWAY","MARGARITA'S","SUBWAY","SABORES","ROYALCOACH DINER","KENNEDY'S CHICKEN & PIZZA","SABOR LATINO BAR & GRILL","NEW WAH KWONG RESTAURANT","NEW NO.8 CHINESE RESTAURANT","BLENDED-UP JUICE, SMOOTHIES & SALAD BAR","US KENNEDY FRIED CHICKEN & PIZZA","LA CANTINA","La Sirenita","BLU RESTAURANT LOUNGE","PIZZA HUT","QUALITY GRILL & GYRO","PAPA JOHN'S PIZZA","PAPA JOHN'S PIZZA","DARDANIA QEBABTORE EUROPE AND GRILL","ESSENTIAL 608","KENNEDY FRIED CHICKEN","KENNEDY FRIED CHICKEN AND PIZZA","KENNEDY FRIED CHICKEN","NEW SUN DELI","KENNEDY FRIED CHICKEN","GENERAL TSO'S CHINESE RESTAURANT","NEW LUCKY HOUSE RESTAURANT","Texas Chicken and Burger","NICKY'S PIZZA RESTAURANT","J & M BELLA PIZZA","PRINCE COFFEE HOUSE","FUSION JUICE BAR & GRILL","MADDEN'S UPTOWN BAR & GRILL","SING WOK KITCHEN","MOUNT HOPE BAKERY","POLLO CAMPERO","US KENNEDY FRIED CHICKEN","JAGANA FAMILY KENNEDY FRIED CHICKEN","RED HOUSE","MARISCO CENTRO","GREAT WALL CHINESE RESTAURNAT","SECTION 5 PIZZA","CITY ISLAND FROZEN YOGURT","NALLELI PIZZA & TACOS","NYLC LOUNGE","PARILLA LATINA","AGRA GRILL","TIEN LUNG CHINESE RESTAURANT","KING FRIED CHICKEN","SALSA ZONE","LEGENDS HOSPITALITY LLC","MARGHERITA'S MEXICAN CUISINE","DOMINICANA POLLO SABROSO RESTAURANT","KENNEDY FRIED CHICKEN","ANTILLANA PIZZERIA","KA WAH CHINESE RESTAURANT","3 WAY RESTAURANT","TEGO RESTAURANT","BRONX DRAFTHOUSE","MAMA VAL'S FISH, SHRIMP, & CHIPS","HATOASH NATURAL JUICE","JACKIE'S PARADISE","LAST STOP BAR & GRILL","LULU RESTAURANT","MS Caridad III","SALOME LATIN CUISINE","KEVIN CAR WASH AND DELICATESSEN","BUKANAS BAR RESTAURANT","ORO BAR RESTAURANT","JULIA'S COFFEE SHOP","TACO BELL","JC ENTERPRISES","LE WAFOU","MCDONALD'S","MCDONALDS","MCDONALD'S RESTAURANT","CARVEL","I LOVE NY PIZZA","RETRO FITNESS","INDIAN CURRY SPOT NY","BEST ITALIAN PIZZA","EL FAISAN DE ORO RESTAURANT","US KENNEDY FRIED CHICKEN PIZZA","SUPER KENNEDY'S CHICKEN & SANDWICH","PABELLON","DUNKIN DONUTS","LI'S KITCHEN","BIG WONG CHINESE RESTAURANT","THE EGAN PAVILLION","MOON STAR GRILL","TEXAS CHICKEN & BURGERS","MY DREAM RESTAURANT & LOUNGE","GUANG HUI RESTAURANT","BACCO","LUNA CAFE INC","NY BRONX BRICK OVEN PIZZA","JENAVIES CAFE","MARKETPLACE AT MCGINLEY CENTER FORDHAM UNIVERSITY","AL-AQSA RESTAURANT","LITTLE CAESARE","DUNKIN DONUTS/BASKIN ROBINS","SUBWAY","EL JOBO SEAFOOD RESTAURANT","KENTUCKY FRIED CHICKEN (KFC)","KFC","SUBWAY","KENNEDY FRIED CHICKEN","HOUSE PIZZA","STARBUCKS COFFEE COMPANY","JOHN'S FRIED CHICKEN","FOOD HAI","LA CUEVITA DE MACHO","3 SISTERS PIZZA","FORDHAN U- A CRUST & AUNTIE ANNE'S","FORDHAM U-POD EXPRESS AT KEATING HALL","URBAN KITCHEN","FORDHAM U - SALT & SESAME AT FACULTY MEMORIAL HALL","FORDHAM U - COSI AT CAMPBELL HALL","DAGGER JOHNS AT MCGINLEY FORDHAM UNIVERSITY","BETTER GOURMET HEALTH KITCHEN","BIARRITZ BAKERY","OASIS MIDDLE EASTERN RESTAURANT","BURGER KING","CHINA WOK III","SKYLINE BAR & LOUNGE","NO.1  WOK","GOURMET TO GO","JIMMY'S PIZZA","EL SAZON DE OLGA RESTAURANT","CHIPOTLE MEXICAN GRILL #2838","TROPICAL RESTAURANT","COCINA CHENTE MEXICAN CUISINE","BA CORNER DELI","XSPORT FITNESS","TRADITA BRICK OVEN PIZZA","TASTY CARIBBEAN BUFFET","HALAL HARMON'S SOUL FOOD","GRACE JUICE AND SALAD BAR","LEFT FIELD DECK BAR","RIGHT FIELD DECK BAR","LEFT FIELD SPORTS LOUNGS","SO BRO CAFE","KENNEDY FRIED CHICKEN","TAQUERIA HUARACHE","Porto Salvo","TEXAS CHICKEN & BURGERS","MAROLO RESTAURANT","KENNEDY FRIED CHICKEN","DELFINI","HABANERO MEXICAN CUISINE","MR. Q'S","RICHIE RICH","XING SHENG","Mi Romance Ecuartoriano","MCDONALD'S","CHECKERS DRIVE IN RESTAURANTS INC","BULBAP GRILL","GUN HILL TAVERN","LA PENDA II RESTAURANT","BRONX CURRY AND KABAB","CROWN FRIED  CHICKEN"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#440154","#21908D","#FDE725"],"labels":["A","B","C"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"factor","title":"Restaurant Grade","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[40.800957,40.910316],"lng":[-73.92998,-73.78311]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="htmlwidget-7c2753b50533b76dbe50" style="width:576px;height:460.8px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7c2753b50533b76dbe50">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[40.82873,40.830643,40.885216,40.889687,40.821865,40.843365,40.837757,40.88671,40.892845,40.852745,40.888565,40.88796,40.863525,40.84627,40.849556,40.832508,40.85063,40.877327,40.82845,40.85453,40.85559,40.885822,40.86542,40.81782,40.86201,40.838253,40.845856,40.844955,40.865463,40.862934,40.85391,40.9071,40.8989,40.867764,40.845142,40.899292,40.854385,40.893955,40.857635,40.845512,40.850628,40.843014,40.907043,40.864487,40.86011,40.84619,40.82866,40.835293,40.87958,40.812675,40.82429,40.825027,40.857296,40.84348,40.83487,40.88588,40.827145,40.855324,40.876987,40.829224,40.846664,40.832504,40.887234,40.898106,40.868023,40.86082,40.84188,40.8542,40.871433,40.831764,40.86823,40.83493,40.83407,40.889164,40.905552,40.835556,40.869236,40.816093,40.903664,40.816116,40.82859,40.832443,40.82598,40.9055,40.838177,40.854343,40.82806,40.828663,40.886135,40.819492,40.846188,40.849937,40.828224,40.82109,40.827286,40.833523,40.90518,40.84608,40.86184,40.813934,40.836205,40.836887,40.871273,40.805965,40.853878,40.877625,40.81985,40.895615,40.878887,40.853218,40.853916,40.82367,40.86406,40.84686,40.820957,40.854446,40.881454,40.883343,40.887947,40.86239,40.88273,40.85792,40.898735,40.886395,40.817043,40.879646,40.835064,40.83607,40.8677,40.830738,40.840935,40.83627,40.854153,40.853977,40.823135,40.818104,40.836025,40.860695,40.85629,40.867825,40.84084,40.834343,40.865402,40.81577,40.873318,40.85664,40.836674,40.88736,40.896645,40.83787,40.835625,40.887615,40.82795,40.853897,40.851254,40.81001,40.868896,40.891693,40.87287,40.86185,40.824368,40.804665,40.833652,40.859234,40.89546,40.834396,40.83951,40.906105,40.84387,40.813274,40.884132,40.89008,40.83051,40.834465,40.867382,40.82689,40.822388,40.840534,40.83603,40.865475,40.832508,40.836933,40.817333,40.907207,40.816425,40.839912,40.897995,40.82751,40.82143,40.830425,40.85531,40.87878,40.83362,40.81324,40.830727,40.83226,40.80671,40.853745,40.82318,40.889385,40.8566,40.847584,40.859203,40.81195,40.809185,40.809185,40.809185,40.86553,40.83069,40.854908,40.876915,40.84403,40.845978,40.90754,40.84398,40.815483,40.90732,40.848206,40.875805,40.809185,40.869087,40.864815,40.803436,40.839504,40.840603,40.86183,40.8363,40.82926,40.8623,40.819675,40.812363,40.84308,40.84621,40.83247,40.885254,40.87681,40.82912,40.82705,40.828182,40.828358,40.889633,40.89301,40.883152,40.86542,40.904934,40.831886,40.885857,40.892967,40.862717,40.82913,40.887234,40.830395,40.88913,40.88913,40.86527,40.838924,40.878296,40.886726,40.826847,40.844418,40.86179,40.885292,40.879646,40.846355,40.852085,40.836063,40.833626,40.847443,40.865467,40.8497,40.843967,40.812515,40.83759,40.84247,40.846165,40.878735,40.85405,40.827374,40.840473,40.828533,40.875088,40.814903,40.825417,40.87965,40.85254,40.85733,40.85586,40.83052,40.819572,40.90547,40.840904,40.87727,40.883953,40.886803,40.846355,40.831963,40.90277,40.85515,40.807713,40.83617,40.845943,40.888855,40.858585,40.814873,40.820766,40.874382,40.843174,40.89597,40.899982,40.896343,40.897514,40.87625,40.81168,40.888943,40.878086,40.83185,40.823265,40.81653,40.86139,40.854534,40.910316,40.828384,40.817425,40.86188,40.807785,40.839367,40.86523,40.903893,40.82677,40.89476,40.865765,40.86272,40.900257,40.867943,40.81284,40.836906,40.879974,40.814068,40.85229,40.84395,40.827583,40.885773,40.879448,40.854397,40.80773,40.85422,40.829258,40.867207,40.85618,40.855488,40.81311,40.85497,40.826797,40.820988,40.829536,40.90608,40.808598,40.817112,40.843845,40.877586,40.84424,40.81169,40.858242,40.846794,40.865482,40.855106,40.825783,40.877506,40.885742,40.829506,40.834328,40.83071,40.903713,40.821552,40.87908,40.85563,40.90353,40.82827,40.85645,40.878384,40.85213,40.815876,40.832993,40.90149,40.80903,40.89088,40.861996,40.85348,40.82592,40.822575,40.861195,40.885696,40.84642,40.877213,40.8168,40.81984,40.84793,40.86092,40.806393,40.829136,40.8573,40.829113,40.83421,40.88748,40.835987,40.844692,40.86526,40.897808,40.842598,40.88081,40.873016,40.82015,40.816605,40.83039,40.86092,40.82841,40.850895,40.82467,40.845463,40.844822,40.84793,40.874714,40.874714,40.871742,40.85088,40.862812,40.857956,40.814384,40.844265,40.836628,40.899128,40.890495,40.84793,40.880657,40.817364,40.865128,40.82677,40.84762,40.86114,40.837494,40.88276,40.84793,40.852135,40.88751,40.83039,40.841408,40.874954,40.83483,40.82569,40.90613,40.897873,40.84476,40.816826,40.825333,40.834106,40.824375,40.830944,40.851463,40.865185,40.869854,40.823586,40.843407,40.84799,40.819916,40.844807,40.83244,40.85438,40.88975,40.837547,40.853348,40.842594,40.8729,40.847057,40.823235,40.896896,40.807507,40.879833,40.828583,40.85219,40.826664,40.82,40.814354,40.80796,40.90647,40.84107,40.82401,40.836628,40.88318,40.896427,40.832,40.817566,40.827553,40.86403,40.84183,40.81525,40.835815,40.807747,40.86106,40.907097,40.88631,40.869667,40.876347,40.832638,40.828312,40.854828,40.832737,40.826984,40.872852,40.86956,40.83167,40.839817,40.844692,40.808628,40.84485,40.85124,40.865494,40.81695,40.90542,40.85602,40.878757,40.853806,40.86219,40.815792,40.82551,40.8184,40.872658,40.878826,40.872845,40.87142,40.86281,40.831947,40.836212,40.857094,40.86617,40.845493,40.876823,40.847305,40.886562,40.865837,40.863052,40.858334,40.85932,40.852325,40.818775,40.860394,40.85151,40.830967,40.833805,40.867172,40.873432,40.87656,40.853477,40.887226,40.88329,40.871967,40.849354,40.829113,40.837223,40.832794,40.830574,40.83127,40.85383,40.86509,40.847355,40.815228,40.86106,40.87765,40.884567,40.887585,40.809547,40.81429,40.829056,40.82211,40.843616,40.88313,40.825394,40.873688,40.85396,40.90032,40.82791,40.81474,40.834274,40.891155,40.902256,40.8514,40.832905,40.834087,40.829582,40.85571,40.822563,40.815754,40.88217,40.855824,40.855648,40.81947,40.817158,40.83617,40.856586,40.849083,40.83722,40.897648,40.859253,40.82021,40.82004,40.861996,40.82852,40.825504,40.863556,40.884346,40.905552,40.88589,40.82361,40.877583,40.876835,40.88594,40.855534,40.840946,40.83324,40.860027,40.836086,40.841034,40.856068,40.8669,40.892796,40.82659,40.81633,40.84108,40.83116,40.87411,40.851437,40.877277,40.84116,40.80796,40.864254,40.860027,40.860027,40.860027,40.860027,40.860027,40.860027,40.850243,40.826786,40.8476,40.895195,40.85999,40.852802,40.805866,40.87716,40.82551,40.828007,40.82569,40.812378,40.886154,40.87319,40.862244,40.873127,40.88177,40.81748,40.85103,40.829056,40.829056,40.829056,40.813313,40.83452,40.844166,40.82392,40.807644,40.85541,40.814976,40.80978,40.808487,40.855732,40.8334,40.846165,40.81582,40.84432,40.861828,40.862095,40.800957,40.8514,40.852146,40.83617],[-73.814316,-73.84989,-73.90058,-73.8204,-73.89738,-73.90338,-73.86459,-73.90704,-73.85767,-73.827545,-73.86005,-73.86037,-73.88897,-73.90175,-73.78737,-73.82892,-73.867805,-73.82953,-73.8808,-73.85467,-73.86767,-73.909935,-73.867516,-73.90551,-73.9017,-73.86363,-73.83149,-73.846756,-73.86594,-73.88968,-73.88796,-73.90403,-73.86745,-73.83124,-73.8453,-73.867516,-73.854546,-73.85706,-73.899605,-73.86469,-73.85163,-73.84486,-73.904045,-73.90385,-73.89298,-73.8481,-73.88111,-73.907936,-73.90431,-73.90225,-73.89267,-73.869965,-73.88608,-73.8359,-73.91959,-73.86153,-73.895004,-73.88776,-73.846535,-73.876465,-73.91308,-73.86419,-73.904816,-73.86728,-73.83135,-73.89825,-73.916504,-73.88874,-73.866905,-73.90373,-73.88208,-73.91956,-73.853516,-73.85971,-73.9071,-73.81798,-73.82481,-73.89644,-73.85018,-73.89643,-73.879005,-73.91667,-73.86209,-73.90046,-73.78311,-73.85451,-73.90711,-73.87816,-73.82784,-73.892944,-73.92012,-73.86462,-73.92569,-73.8969,-73.92066,-73.85802,-73.90151,-73.90473,-73.891205,-73.80286,-73.860985,-73.88629,-73.87698,-73.91426,-73.88716,-73.90572,-73.916046,-73.87584,-73.871506,-73.85363,-73.88899,-73.893845,-73.89117,-73.786354,-73.89689,-73.865395,-73.83826,-73.901695,-73.8313,-73.90139,-73.8493,-73.867584,-73.85504,-73.84785,-73.92292,-73.82472,-73.86307,-73.854996,-73.831215,-73.85706,-73.78584,-73.85314,-73.886795,-73.90214,-73.8907,-73.88358,-73.85521,-73.89789,-73.900406,-73.88408,-73.837654,-73.85034,-73.869064,-73.86451,-73.889305,-73.79096,-73.84683,-73.907196,-73.86703,-73.863396,-73.85504,-73.90731,-73.88093,-73.90844,-73.898796,-73.88114,-73.89629,-73.85833,-73.90513,-73.84332,-73.909615,-73.922325,-73.8569,-73.898155,-73.86352,-73.86097,-73.921364,-73.90431,-73.845634,-73.915924,-73.84936,-73.89812,-73.897125,-73.89461,-73.88372,-73.92646,-73.8671,-73.85495,-73.855194,-73.8649,-73.8522,-73.84652,-73.922775,-73.904,-73.89641,-73.87596,-73.854675,-73.90667,-73.866165,-73.81576,-73.88779,-73.9049,-73.929,-73.91594,-73.85708,-73.82761,-73.92717,-73.89947,-73.90018,-73.85959,-73.90068,-73.86698,-73.898705,-73.909546,-73.80207,-73.80207,-73.80207,-73.860214,-73.84758,-73.85496,-73.82973,-73.83967,-73.85904,-73.90391,-73.83005,-73.91818,-73.90397,-73.85605,-73.85002,-73.80207,-73.83057,-73.88884,-73.90599,-73.8584,-73.92165,-73.8923,-73.88458,-73.91634,-73.898415,-73.91343,-73.90332,-73.90029,-73.91844,-73.8643,-73.86189,-73.847046,-73.89188,-73.92637,-73.92453,-73.881905,-73.82049,-73.85758,-73.86303,-73.86744,-73.89696,-73.92998,-73.90993,-73.857605,-73.89673,-73.874466,-73.90714,-73.891785,-73.90223,-73.90223,-73.822464,-73.918465,-73.917145,-73.90705,-73.92532,-73.911316,-73.85764,-73.82731,-73.82472,-73.91737,-73.90414,-73.854935,-73.85717,-73.90824,-73.86581,-73.91656,-73.83004,-73.88787,-73.86631,-73.89384,-73.918755,-73.86548,-73.85428,-73.91746,-73.92235,-73.879776,-73.87948,-73.91864,-73.91794,-73.90627,-73.88993,-73.899666,-73.85557,-73.91062,-73.81755,-73.89794,-73.84248,-73.90597,-73.86259,-73.85425,-73.83181,-73.86603,-73.89647,-73.88678,-73.9196,-73.856346,-73.89218,-73.84313,-73.868004,-73.919876,-73.84843,-73.90154,-73.84542,-73.896736,-73.91053,-73.871956,-73.85507,-73.83649,-73.92608,-73.84215,-73.86583,-73.866425,-73.909164,-73.9018,-73.85759,-73.88548,-73.90316,-73.88155,-73.91715,-73.843315,-73.9191,-73.915436,-73.82238,-73.85,-73.88871,-73.856636,-73.886215,-73.90099,-73.86768,-73.88419,-73.90427,-73.86628,-73.90686,-73.919266,-73.864876,-73.78527,-73.92582,-73.90995,-73.86508,-73.89199,-73.889534,-73.902405,-73.897644,-73.89672,-73.84393,-73.88744,-73.9085,-73.89044,-73.89148,-73.9125,-73.87559,-73.90432,-73.92325,-73.92171,-73.84563,-73.84518,-73.914474,-73.90363,-73.867584,-73.84876,-73.86454,-73.88669,-73.891914,-73.82953,-73.91046,-73.874626,-73.8505,-73.91043,-73.85016,-73.86686,-73.84319,-73.85545,-73.8503,-73.82395,-73.89208,-73.905174,-73.88452,-73.90734,-73.905754,-73.86314,-73.91838,-73.89771,-73.89098,-73.90765,-73.82136,-73.902534,-73.89719,-73.91016,-73.89345,-73.84588,-73.92046,-73.9133,-73.84489,-73.89007,-73.918594,-73.875824,-73.886086,-73.87591,-73.85156,-73.90726,-73.90755,-73.90684,-73.82244,-73.854866,-73.85218,-73.8643,-73.87858,-73.90143,-73.86112,-73.81573,-73.89007,-73.881386,-73.89443,-73.820366,-73.902954,-73.90926,-73.84489,-73.892166,-73.892166,-73.87742,-73.90155,-73.89413,-73.88675,-73.89297,-73.91454,-73.88554,-73.867485,-73.89804,-73.84489,-73.883255,-73.897995,-73.89298,-73.88871,-73.90753,-73.89697,-73.88767,-73.89331,-73.84489,-73.903244,-73.90727,-73.81573,-73.92216,-73.87979,-73.908195,-73.91883,-73.904305,-73.867256,-73.86401,-73.88682,-73.92601,-73.85252,-73.90964,-73.920265,-73.84414,-73.83007,-73.89044,-73.9231,-73.91284,-73.844894,-73.91603,-73.90896,-73.851166,-73.85455,-73.89825,-73.84108,-73.91254,-73.8539,-73.87847,-73.89707,-73.8947,-73.85544,-73.91927,-73.84207,-73.8791,-73.90886,-73.92276,-73.91599,-73.91905,-73.918976,-73.9068,-73.84273,-73.82004,-73.88554,-73.86302,-73.87155,-73.82737,-73.9173,-73.924484,-73.86161,-73.90181,-73.90019,-73.914345,-73.913315,-73.89769,-73.90403,-73.86129,-73.89015,-73.84847,-73.85938,-73.91694,-73.88819,-73.90608,-73.905235,-73.90509,-73.84272,-73.91905,-73.86868,-73.830734,-73.91579,-73.830826,-73.908264,-73.85837,-73.92109,-73.90096,-73.85564,-73.87268,-73.887474,-73.901566,-73.90288,-73.85937,-73.92229,-73.85447,-73.87329,-73.8896,-73.86581,-73.90841,-73.86612,-73.90268,-73.88626,-73.8855,-73.90218,-73.86466,-73.83243,-73.86117,-73.867355,-73.8586,-73.885056,-73.899055,-73.903946,-73.91886,-73.89227,-73.909485,-73.86183,-73.91576,-73.89667,-73.87968,-73.847855,-73.88938,-73.904785,-73.901726,-73.87761,-73.910774,-73.87591,-73.90679,-73.89795,-73.90324,-73.850876,-73.88337,-73.82205,-73.78654,-73.900185,-73.89769,-73.90571,-73.86227,-73.86057,-73.92256,-73.919556,-73.928276,-73.9081,-73.91292,-73.863045,-73.89049,-73.88501,-73.888954,-73.8618,-73.9247,-73.89994,-73.91675,-73.850266,-73.85139,-73.8954,-73.863,-73.852684,-73.90652,-73.88644,-73.90041,-73.9252,-73.82338,-73.90555,-73.895966,-73.90205,-73.92184,-73.8896,-73.90069,-73.89176,-73.92231,-73.867195,-73.8991,-73.9133,-73.91597,-73.90561,-73.880035,-73.899185,-73.858345,-73.84922,-73.9071,-73.90991,-73.89398,-73.84667,-73.82977,-73.90988,-73.88751,-73.84255,-73.82759,-73.88791,-73.85483,-73.8427,-73.855675,-73.88426,-73.85551,-73.85739,-73.91861,-73.84275,-73.91025,-73.88411,-73.844154,-73.90596,-73.87917,-73.918976,-73.89152,-73.88791,-73.88791,-73.88791,-73.88791,-73.88791,-73.88791,-73.85152,-73.88915,-73.86699,-73.85639,-73.893105,-73.842705,-73.91432,-73.8296,-73.85937,-73.850136,-73.91883,-73.88484,-73.90699,-73.87877,-73.827576,-73.87871,-73.87927,-73.898186,-73.90434,-73.928276,-73.928276,-73.928276,-73.91699,-73.92849,-73.91433,-73.91297,-73.91918,-73.8873,-73.90006,-73.89007,-73.928986,-73.85551,-73.91444,-73.918755,-73.919716,-73.91467,-73.89203,-73.89496,-73.91363,-73.8954,-73.864876,-73.856346],1,null,null,{"interactive":true,"className":"","stroke":true,"color":["#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#FDE725","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#FDE725","#440154","#FDE725","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#FDE725","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#FDE725","#440154","#FDE725","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#21908D","#21908D","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#21908D","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154","#440154"],"fillOpacity":0.2},null,null,["MANHEM CLUB","THE NEW STARLING ATHLETIC CLUB OF THE BRONX","THE PUNCH BOWL","IHOP","WHITE CASTLE","LA LECHONERA CRIOLLA","JOE'S PIZZA","ROLEN BAGELS","MCDONALD'S","VILLA BARONE","KINGSTON TROPICAL BAKERY","CHAMPION BAKERY","EL VAQUERO BARRAS","WHITE CASTLE","ARTIE'S","CROSSTOWN DINER","PARK BILLIARDS","CAPRI II PIZZA","NACIONAL BAKERY #1","PASTA PASTA RESTAURANT","MCDONALD'S","HUNAN BALCONY","KENNEDY FRIED CHICKEN","BONA PIZZA","DIAMANTE POBLANO RESTAURANT","ARCHER SPORTS BAR","SHAMROCK INN","MCDONALD'S","ROMA PIZZA","LOS GIRASOLES RESTAURANT","CAFE AL MERCATO","RIVERDALE STEAK HOUSE","BEHAN'S PUB","CHECKERS","PINE BAR & GRILL","ANGELICA'S BAKERY","PORTOFINO CAFE","ALI'S ROTI SHOP","SUSIE'S PIES","DOMINO'S","HONG KONG RESTAURANT","CARIDAD","MADISON'S","LIN HOME CHINESE RESTAURA","DOMINO'S","THE WILLIAMSBRIDGE TAVERN","VISTA HERMOSA DELI RESTAURANT","DOMINO'S","MR MCGOO'S","WILBEL PIZZA","LA NUEVA GIRALDA BAKERY","CEA LO CAFE","MUG-Z'S SPORTS BAR","FRANK'S PIZZERIA/DA FRANCO AND TONY RESTAURANT","NB. NATIONAL BAKERY","NEW RAINBOW RESTAURANT","LA MORENA FOOD","M&G Restaurant","FOOD HUT RESTAURANT & BAKERY","EDISON RESTAURANT","LA MONEDA RESTAURANT","ISLA OF VERDE CAFE","YOKOHAMA JAPANESE RESTAURANT","RAMBLING HOUSE","POPEYES LOUISIANA KITCHEN","MOM'S BAKERY","ESTRELLA BAR & RESTAURANT","MARIO'S RESTAURANT","K & Q RESTARUANT","FULTON AVE CAFE","GREAT WALL","CORNER STYLE","EVO COCKTAIL LOUNGE & RESTAURANT","THE PIZZA PLACE","THE JOHN J O'CONNOR RESIDENCE","LORETTA'S PIZZA","AMC THEATRES","EL VALLE RESTAURANT","GOLDEN KRUST CARIBBEAN BAKERY & GRILL","NEW RED STAR","NATIONAL BAKERY","HALAL COFFEE SHOP RESTAURANT","MCDONALD'S","BECCOFINO","MORRIS YACHT & BEACH CLUB","SORRENTO'S PIZZERIA","JALLOH FAMILY RESTAURANT","MCDONALD'S","COZY COTTAGE RESTAURANT","HUNTSPOINT CHINESE RESTAURANT","EL NUEVO YOLY RESTAURANT","THE GRILL HOUSE","THE DUGOUT","KENNEDY CHICKEN AND PIZZA","CHRIS SUPER DELI","MCDONALD'S","DINO'S PIZZA","PROMESA CAFETERIA","GOLDEN KRUST CARIBBEAN BAKERY & GRILL","LOCUST POINT YACHT CLUB","GOLDEN KRUST CARIBBEAN BAKERY & GRILL","POPEYES LOUISIANA KITCHEN","LA NUEVA ESTRELLA BAR & RESTAURANT","PIO PIO","SHILA BAR & WINE","DUNKIN' DONUTS","JIMBO'S HAMBURGER PLACE","KELLY'S PUB","MCDONALD'S","KIRAKU SUSHI JAPANESE RESTAURANT","ESTRELLITA POBLANA III","EL VALLE RESTAURANT","CROWN FRIED CHICKEN","LICKETY SPLIT","NATIONAL BAKERY","DUKAGJINI BUREKTORE","KLASSIQUE","CARVEL ICE CREAM","DYRE AVENUE DINER","EL VALLE RESTAURANT","BLUE MOUNTAIN CUISINE RESTAURANT","DUNKIN' DONUTS","DOMINO'S","KENNEDY CHICKEN & PIZZA","JANEYDI BAKERY","GOLDEN KRUST CARIBBEAN BAKERY & GRILL","NEW HONG FA","TAQUERIA TLAXCALLI","PANERA BREAD","D'ANGELO'S PIZZA, PANCHO'S MEXICAN RESTAURANT","CITY ISLAND YACHT CLUB","SABOR LATINO SEAFOOD RESTAURANT","ANTONIO'S TRATTORIA","LA ESTRELLA RESTAURANT","T-BROTHERS PIZZERIA","VALENCIA COFFEE ROOM","JERRY'S PIZZA","SUBWAY","CARIDAD RESTAURANT","ROSE FLOWER","BURGER KING","LA COCINA BORICUA","HONG KONG KITCHEN","LIN KEE HONG CHINESE RESTAURANT","CHOI YUAN","CITY ISLAND LOBSTER HOUSE","GEORGE'S DINER-CAFE","SALVATORES OF SOHO","BELLA NAPOLI","PARKCHESTER FISH & CHIPS","FRIENDS SPORTS BAR","GREEK EXPRESS","EL CHICANITO SPORTS BAR","ACCRA RESTAURANT","THE POINT AFRICAN CARIBBEAN RESTAURANT","THE POINT CAFE & GRILL","LJ PIZZA","JIMBO'S HAMBURGER PALACE","NEW YUNG HONG","DUNKIN' DONUTS","DUNKIN' DONUTS","DUNKIN' DONUTS","HALAL MUSA CHINESE FOOD","LOS BALBUENA RESTAURANT","DUNKIN' DONUTS","CHAN'S VILLAGE","NO. 1 CHINA GARDEN KITCHEN","CARLOS AND GABBY'S CANTINA GRILL","M&R DELI & COFFEE SHOP","RUINAS DE COPAN","CARIBBEAN CONNECTION CATERING SERVICES INC RESTAURANT","DUNKIN' DONUTS","JOHNNY'S BAKERY","SUBWAY","ROCCO'S PIZZA","STAN'S SPORTS BAR","WORLD FAMOUS NEW ORLEANS CHICKEN","L&Y WING HING CHINESE RESTAURANT","KING WOK","NEW BOE SUN RESTAURANT","PONTE EN FORMA","KING HOUSE","DRAGON YUAN","TOKYO HOUSE JAPANESE RESTAURANT","SUBWAY","ALITALIA PIZZA RESTAURANT","CHINA PEKING HOUSE","BASICS CAFETERIA","GOLDEN CITY CHINESE KITCHEN","WHITE CROSS FISHING CLUB BAR & GRILL","GERBASI RISTORANTE","EL ECONOMICO RESTAURANT","JING XIN RESTAURANT","NEW WOK","GREAT WALL RESTAURANT","EL PAISANO PIZZERIA","EL PANCHO STEAK HOUSE","LEE WANG RESTAURANT","GREAT WALL KITCHEN","MANGO'S RESTAURANT & CATERING","LA PENDA RESTAURANT","ISTANBUL CAFE OF WHITE PLAINS","DUNKIN' DONUTS","MEXICOSINA","MCMURRAY HALL (SUNY MARITIME)","THE LIBRARY/OUT TAKES QUICK CUISINE","THE SUNY MARITIME U. VANDERCLUTE","PAPI NICE BAR","TAKE AWAY CAFE in REBECCA REHAB CENTER","LIBERTY DINER","TOWNHOUSE RESTAURANT","TOWER CAFE (HUTCH METRO CENTER)","VAN NEST LANES SNACK BAR","ADDEO'S RIVERDALE PIZZERIA","JOE'S PIZZA","CHECKERS","RIVERDALE BAGELS","LUCIANO'S PIZZA","GOOD TASTE CHINESE RESTAURANT","SUNY MARITIME UNIVERSITY (S AND E CAFE)","MCDONALD'S","FLORINDA RESTAURANT","VITHAS COFFEE SHOP","SING HING RESTAURANT","EMERGENCY SNACK BAR","LITTLE CHINA CITY","CHINESE FRIED CHICKEN","DORO'S JAMAICAN RESTAURANT","KENNEDY FRIED CHICKEN","DOMINO'S","LA ESPIGA MEXICAN RESTAURANT","MELA'S CAFE","EMPIRE CHINESE RESTAURANT ZHENG","KING SUNSHINE JERK CENTER","DOMINO'S","DOMINO'S","LUKE'S PIZZA","YANKEE BAR & GRILL/MONUMENTAL EMPANADAS","NEW SUNFLOWER","SABANA LOUNGE","WENDY'S","GOLDEN KRUST CARIBBEAN BAKERY & GRILL","GOLD STAR JERK CENTER","JR PRIMOS RESTAURANT","BRONX BURGER HOUSE","CHINESE FRIED CHICKEN","METATE MEXICAN RESTAURANT","KENNEDY'S CHICKEN & SANDWICHES","Fordham Restaurant","NEW FLYING DRAGON","THE CORNER CAFE & BAKERY/PIZZA PLUS","HAPPY WOK NO.1","CAFE 1853","LOCKE'S LOFT","ANDY'S TERIYAKI & TACO","SUN FUNG CHINESE RESTAURANT","SIAM SQAURE THAI CUISINE","TINY'S DINER","FLAVAS INTERNATIONAL GRILL","GRAND CAFE","IMPERIAL RESTAURANT DELI","MCDONALD'S","CHINA INN BUFFET","EL VALLE","MI CASA BAKERY & COFFEE SHOP","PREMIUM SWEETS & RESTAURANT","PIZZA HUT","KENNEDY FRIED CHICKEN","ISIS RESTAURANT","U.S KENNEDY FRIED CHICKEN","ZHANG'S CHINA PALACE","HUNTS POINT JUICE BAR & DELI","KENNDY FRIED CHICKEN","HOME GARDEN","XING SHENG","GREEN GARDEN HEALTH FOODS","ENZO'S RESTAURANT","KENNEDY FRIED CHICKEN","JOHNNY'S FRIED CHICKEN","EL MOLCAJETE RESTAURANT.","BAINBRIDGE BAKERY","TEXAS CHICKEN &BURGER","NEW GOOD TASTE CHINESE RESTAURANT","ESTRELLITA POBLANA","RIKY & SEPI SPORT CAFE","YANG'S GOOD TASTE","PEACHWAVE FROZEN YOGURT","EL NUEVO BOHIO RESTAURANT","TOSCA CAFE","NEW NAGOYA SUSHI","JULESRUBY LOUNGE RENTAL","ROSARINA BAKERY","GOLDEN KRUST","FRONT PAGE RESTAURANT","15 FLAVORS","SABROSURA 2 RESTAURANT","CARIBBEAN GRILL RESTAURANT","TRA DI NOI","EL VIEJO GRAN CAFE","CROWN FRIED CHICKEN","KENNEDY FRIED CHICKEN & PIZZA","CHINA KING","NO 8 CHINESE RESTAURANT","JS PERRY'S DINER","LECHONERA EL SAZON CRIOLLO","FOO-HING KITCHEN","HEALTHY LIFESTYLE","TONY & VAL'S","WAVE HILL","THE TOMBSTONE SALOON","RINCON LATINO RESTAURANT","THE DUMPLIN SHOP","TWOSHA'S","GOLDEN FOUNTAIN RESTAURANT","GOLDEN KRUST CARIBBEAN BAKERY & GRILL","KENNEDY FRIED CHICKEN","K & L RESTAURANT AND CATERING SERVICE","RMM LOUNGE","YANG'S HAPPY GARDEN","KENNEDY FRIED CHICKEN","NONA'S PIZZA","DOMINO'S","HONG KONG JACKIE CHINESE RESTAURANT","Yummy House","VILLA TAPIA RESTAURANT","WING LING","JADE PALACE","KENNEDY FRIED CHICKEN","NEW SHENG CHINESE KITCHEN","CARIFESTA RESTAURANT","EL NUEVO TENAMPA RESTAURANTE","DUNKIN' DONUTS","THE AVENUE","BEDFORD PIZZA CAFE","3-J RESTAURANT AND PIZZA","MING GARDEN RESTAURANT","MI LINDO SAN MIGUELITO","MADISON CAFE","NEW SPRING GARDEN","RAY'S CAFE AND RESTAURANT","DUNKIN' DONUTS","PALACE OF JAPAN","SING LOON ZHENG KITCHEN","HALAL HUT FRIED CHICKEN & PIZZA","OASIS COFFEE SHOP","KENNEDY FRIED CHICKEN","U.S. KENNEDY FRIED CHICKEN PIZZA","BROTHER'S PIZZERA","GOLDEN CHINA PAVILION","PEACHWAVE FROZEN YOGURT","KENNEDY FRIED CHICKEN","BELLA PIZZA OF BRONX","PASTORA RESTAURANT PIZZERIA","I LOVE PIZZA","CHINA GARDEN","BLOCK PIZZA","ONIS RESTAURANT","KENNEDY FRIED CHICKEN","KAI SUSHI ASIAN FUSION","LITTLE CAESARS","KENNEDY FRIED CHICKEN","GOOD TASTE CHINESE FOOD","CHINA MIA EXOTIC ASIAN FOOD, YOGURT & JUICE BAR","NPR FOOD SOLUTIONS","ALLERTON DINER","LEE'S RESTAURANT","LECHONERA POLLO SABROSO BORIQUENA","KENNEDY FRIED CHICKEN","DUNKIN' DONUTS","THE NEW RANCH","PAPA JOHN'S","EL MOLINA RESTAURANT","LITTLE CAESARS","MS CARIDAD RESTAURANT","AFRICAN LAST STOP","Golden Eagle Diner","241ST CAFE RESTAURANT","FRANK AND JOE'S DELI","TINA  RESTAURANT","SUBWAY","NEW DRAGON SEA CHINESE RESTAURANT","TRIPLE 8 RESTAURANT","US KENNEDY FRIED CHICKEN AND PIZZA","WONDERFUL RESTAURANT","LOK HIN","BURGER KING","KENNEDY FRIED CHICKEN","DON PANCHOLO LECHONERA RESTAURANT","VAPOR LOUNGE","COME & GET SUM FISH & CHIPS","J & LEE'S DELI","FRESCO TORTILLAS","SUBWAY","TRANQUILITY BAR & LOUNGE","MERRY LAND BUFFET","DUNKIN' DONUTS","NRGIZE LIFE STYLE CAFE","SUBWAY","LIN CHINA WOK","DUNKIN' DONUTS","SIMON'S","STAR BILLIARDS","BLIMPIE","BLACKSTONE  BAR AND GRILL","WO KAI CHINESE RESTAURANT","NEW CHINA RESTAURANT","SUBWAY","KAIETEUR RESTAURANT","PEKING HOUSE","VYBES KITCHEN","LIN'S NO 1 CHINESE RESTAURANT","GIOVANIS BIG PIZZA","MEXZZARELLA PIZZA","AMERICAN TURNERS NEW YORK","STARBUCKS","BRAVO AFRICAN RESTAURANT","CHINA WOK KING CORP","15 FLAVORS","PRAIA","KENNEDY FRIED CHICKEN","DUNKIN' DONUTS","CARMEN CAFE (Carmen Hall)","UNDERGROUND LOUNGE","PAPA JOHN'S","BURNSIDE BEER & WINE CAFETERIA","DUNKIN' DONUTS, BASKIN ROBBINS","THE BLUE GOOSE","MILLY'S CORNER RESTAURANT AND BAR","ALTAGRACIA RESTAURANT","TACO BELL","KATONAH PIZZA","ASIAN TOKYO JAPANESE CUISINE","APPLEBEE'S","M & R PIZZA","JERRY'S COFFEE SHOP","SHUN YUEN CHINESE RESTAURANT","KENNEDY FRIED CHICKEN","DELICIOUS FRUIT","KENNEDY FRIED CHICKEN","DUNKIN' DONUTS","SORRENTOS PIZZA","RESIDENCE INN BY MARRIOTT BRONX","AA CHINESE RESTAURANT","KAI FAN ASIAN CUISINE","THE WATERFRONT RESTAURANT","EL NUEVO PATIO","MEI PANDA HOUSE / TOP FRESH TORTILLAS","IDN INTERNATIONAL RESTAURANT","STARBUCKS","RIVERDALE K GRILL HOUSE","JUST ONE TAVERN","VIDA SALUDABLE MARIA","NEW PEPERONI'S PIZZA","HAPPY WOK","PACKSUN HALAL CHICKEN","NEW 509 PIZZERIA INC","XM CAFE","DUNKIN' DONUTS","OUTBACK STEAKHOUSE","KENNEDY FRIED CHICKEN","NEW LIN'S GARDEN NY","KING DRAGON RESTAURANT","MONTE GRAB & GO MARKET","LANDIN MACARONI & CHEESE","CONEJA JUICE BAR","MASTER SMOOTHIE","SUBWAY","FERNANDEZ BURRITO SHOP","ACRI CAFE","MORRIS HEIGHTS PIZZA","LIN'S GARDEN RESTAURANT","MOJA RESTAURANT (Curry & Grill)","CACHAPA CACHAPA","NEW EAST STAR","GOLDEN RING","EL PARAISO RESTAURANT","WENDY'S","PAPA JOHN'S","PAPA JOHN'S","ASIA GRILL EXPRESS","FITNESS AND NUTRITION CENTER","PAPA JOHN'S","FAST WOK","SKYVIEW CAFE","TEXAS CHICKEN","UNCLE AL'S","BURGER KING","FRANKS PIZZA AND PASTA","THE HIDEOUT TAVERN","MAMA  PUEBLA","619 BAR & RESTAURANT EL SALVADORENO","SUBWAY","CHANDNI CHOWK","CHELSEA CRAFT  BREWING COMPANY","NEW LITTLE CHOPSTICKS","LIU GOLDEN POND CHINESE RESTAURANT","LIANG'S GARDEN","POLLO CAMPERO","GOLDEN PHOENIX CHINESE RESTAURANT","DEUCE & BAM GOOD DINE RESTAURANT","PIQUE 86 RESTAURANT","EL VALLE RESTAURANTE","KENNEDY FRIED CHICKEN","TWO MAMA EMPANADA RESTAURANT","TAPAS ITALIANO","SPRING GARDEN CHINESE RESTAURANT","NEW GOLDEN DRAGON CHINESE","DELICIOUS PIZZA CAFE","NO. 1 CHINESE RESTAURANT","HELEN'S KITCHEN","TANQUERIA LUPITA II","LETTUCE EAT","TENARES RESTAURANT","PELHAM DELITE","AFRICAN HOME RESTAURANT","DOMINIC'S GOURMET PIZZA","CAPRI CAKES","NEW CHINA","NAPOLITANA PIZZA","EL ENCUENTRO RESTAURANT BAR CORP","VALENTINA'S CAFE","SUBWAY","MARGARITA'S","SUBWAY","SABORES","ROYALCOACH DINER","KENNEDY'S CHICKEN & PIZZA","SABOR LATINO BAR & GRILL","NEW WAH KWONG RESTAURANT","NEW NO.8 CHINESE RESTAURANT","BLENDED-UP JUICE, SMOOTHIES & SALAD BAR","US KENNEDY FRIED CHICKEN & PIZZA","LA CANTINA","La Sirenita","BLU RESTAURANT LOUNGE","PIZZA HUT","QUALITY GRILL & GYRO","PAPA JOHN'S PIZZA","PAPA JOHN'S PIZZA","DARDANIA QEBABTORE EUROPE AND GRILL","ESSENTIAL 608","KENNEDY FRIED CHICKEN","KENNEDY FRIED CHICKEN AND PIZZA","KENNEDY FRIED CHICKEN","NEW SUN DELI","KENNEDY FRIED CHICKEN","GENERAL TSO'S CHINESE RESTAURANT","NEW LUCKY HOUSE RESTAURANT","Texas Chicken and Burger","NICKY'S PIZZA RESTAURANT","J & M BELLA PIZZA","PRINCE COFFEE HOUSE","FUSION JUICE BAR & GRILL","MADDEN'S UPTOWN BAR & GRILL","SING WOK KITCHEN","MOUNT HOPE BAKERY","POLLO CAMPERO","US KENNEDY FRIED CHICKEN","JAGANA FAMILY KENNEDY FRIED CHICKEN","RED HOUSE","MARISCO CENTRO","GREAT WALL CHINESE RESTAURNAT","SECTION 5 PIZZA","CITY ISLAND FROZEN YOGURT","NALLELI PIZZA & TACOS","NYLC LOUNGE","PARILLA LATINA","AGRA GRILL","TIEN LUNG CHINESE RESTAURANT","KING FRIED CHICKEN","SALSA ZONE","LEGENDS HOSPITALITY LLC","MARGHERITA'S MEXICAN CUISINE","DOMINICANA POLLO SABROSO RESTAURANT","KENNEDY FRIED CHICKEN","ANTILLANA PIZZERIA","KA WAH CHINESE RESTAURANT","3 WAY RESTAURANT","TEGO RESTAURANT","BRONX DRAFTHOUSE","MAMA VAL'S FISH, SHRIMP, & CHIPS","HATOASH NATURAL JUICE","JACKIE'S PARADISE","LAST STOP BAR & GRILL","LULU RESTAURANT","MS Caridad III","SALOME LATIN CUISINE","KEVIN CAR WASH AND DELICATESSEN","BUKANAS BAR RESTAURANT","ORO BAR RESTAURANT","JULIA'S COFFEE SHOP","TACO BELL","JC ENTERPRISES","LE WAFOU","MCDONALD'S","MCDONALDS","MCDONALD'S RESTAURANT","CARVEL","I LOVE NY PIZZA","RETRO FITNESS","INDIAN CURRY SPOT NY","BEST ITALIAN PIZZA","EL FAISAN DE ORO RESTAURANT","US KENNEDY FRIED CHICKEN PIZZA","SUPER KENNEDY'S CHICKEN & SANDWICH","PABELLON","DUNKIN DONUTS","LI'S KITCHEN","BIG WONG CHINESE RESTAURANT","THE EGAN PAVILLION","MOON STAR GRILL","TEXAS CHICKEN & BURGERS","MY DREAM RESTAURANT & LOUNGE","GUANG HUI RESTAURANT","BACCO","LUNA CAFE INC","NY BRONX BRICK OVEN PIZZA","JENAVIES CAFE","MARKETPLACE AT MCGINLEY CENTER FORDHAM UNIVERSITY","AL-AQSA RESTAURANT","LITTLE CAESARE","DUNKIN DONUTS/BASKIN ROBINS","SUBWAY","EL JOBO SEAFOOD RESTAURANT","KENTUCKY FRIED CHICKEN (KFC)","KFC","SUBWAY","KENNEDY FRIED CHICKEN","HOUSE PIZZA","STARBUCKS COFFEE COMPANY","JOHN'S FRIED CHICKEN","FOOD HAI","LA CUEVITA DE MACHO","3 SISTERS PIZZA","FORDHAN U- A CRUST & AUNTIE ANNE'S","FORDHAM U-POD EXPRESS AT KEATING HALL","URBAN KITCHEN","FORDHAM U - SALT & SESAME AT FACULTY MEMORIAL HALL","FORDHAM U - COSI AT CAMPBELL HALL","DAGGER JOHNS AT MCGINLEY FORDHAM UNIVERSITY","BETTER GOURMET HEALTH KITCHEN","BIARRITZ BAKERY","OASIS MIDDLE EASTERN RESTAURANT","BURGER KING","CHINA WOK III","SKYLINE BAR & LOUNGE","NO.1  WOK","GOURMET TO GO","JIMMY'S PIZZA","EL SAZON DE OLGA RESTAURANT","CHIPOTLE MEXICAN GRILL #2838","TROPICAL RESTAURANT","COCINA CHENTE MEXICAN CUISINE","BA CORNER DELI","XSPORT FITNESS","TRADITA BRICK OVEN PIZZA","TASTY CARIBBEAN BUFFET","HALAL HARMON'S SOUL FOOD","GRACE JUICE AND SALAD BAR","LEFT FIELD DECK BAR","RIGHT FIELD DECK BAR","LEFT FIELD SPORTS LOUNGS","SO BRO CAFE","KENNEDY FRIED CHICKEN","TAQUERIA HUARACHE","Porto Salvo","TEXAS CHICKEN & BURGERS","MAROLO RESTAURANT","KENNEDY FRIED CHICKEN","DELFINI","HABANERO MEXICAN CUISINE","MR. Q'S","RICHIE RICH","XING SHENG","Mi Romance Ecuartoriano","MCDONALD'S","CHECKERS DRIVE IN RESTAURANTS INC","BULBAP GRILL","GUN HILL TAVERN","LA PENDA II RESTAURANT","BRONX CURRY AND KABAB","CROWN FRIED  CHICKEN"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#440154","#21908D","#FDE725"],"labels":["A","B","C"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"factor","title":"Restaurant Grade","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[40.800957,40.910316],"lng":[-73.92998,-73.78311]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div id="column-1" class="section level2" data-width="350">
 <h2>Column</h2>
 <div id="chart-b" class="section level3">
 <h3>Chart B</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
 </div>
 <div id="chart-c" class="section level3">
 <h3>Chart C</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
 </div>
 </div>
-
-
-
+</div>
 
 </div>
 
 <script>
 
-// add bootstrap table styles to pandoc tables
-function bootstrapStylePandocTables() {
-  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
-}
 $(document).ready(function () {
-  bootstrapStylePandocTables();
+
+  // add bootstrap table styles to pandoc tables
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+
+  // initialize mathjax
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+  document.getElementsByTagName("head")[0].appendChild(script);
+
 });
-
-
 </script>
 
-<!-- tabsets -->
+<div id="flexdashboard-source-code">
+<pre class="line-numbers"><code class="language-r">---
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source_code: embed
+---
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
+```{r setup, include=FALSE}
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+library(leaflet)
+library(tidygeocoder)
+library(ggridges)
 
+restaurants_df = read_csv("geocodedfile.csv")
+
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+pal = colorFactor("viridis", NULL)
+
+restaurants_df %>%
+  leaflet() %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addCircleMarkers(~long, ~lat, radius = 1, color = ~pal(grade), popup = ~restaurant_name) %>%
+    addLegend("bottomright", pal = pal, values = ~grade,
+    title = "Restaurant Grade",
+    opacity = 1)
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
+</code></pre>
+</div>
+<script type="text/javascript">
 $(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open');
+  FlexDashboard.init({
+    theme: "cosmo",
+    fillPage: true,
+    orientation: "columns",
+    storyboard: false,
+    defaultFigWidth: 576,
+    defaultFigHeight: 460,
+    defaultFigWidthMobile: 360,
+    defaultFigHeightMobile: 460,
+    resize_reload: true
   });
 });
-</script>
-
-<!-- code folding -->
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
 </script>
 
 </body>

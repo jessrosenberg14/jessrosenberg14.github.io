@@ -29,25 +29,12 @@ nycrest =
   filter(grade %in% c("A", "B", "C"))
 ```
 
-```{r}
-nycrest2 =
-nycrest %>%
-    mutate(address = str_c(building, " " , street, " New York, NY", " ", zipcode))
-
-addresses = 
-  nycrest2 %>%
-  geocode(address = address, method = "census", verbose = TRUE)
-
-addresses2 =
-  addresses %>%
-  drop_na(lat) %>%
-  mutate(restaurant_name = dba)
-```
-
 ```{r, eval=FALSE}
+restaurants_df = read_csv("geocodedfile.csv")
+
 pal = colorFactor("viridis", NULL)
 
-addresses2 %>%
+restaurants_df %>%
   leaflet() %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
   addCircleMarkers(~long, ~lat, radius = 1, color = ~pal(grade), popup = ~restaurant_name) %>%
@@ -55,14 +42,6 @@ addresses2 %>%
     title = "Restaurant Grade",
     opacity = 1)
   
-```
-
-```{r}
-addresses2 %>%
-  
-plot_ly(
-    x = ~lat, y = ~long, type = "scatter", mode = "markers",
-    color = ~grade, text = ~text_label, alpha = 0.5)
 ```
 
 
