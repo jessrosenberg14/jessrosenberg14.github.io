@@ -77,7 +77,7 @@ time =
 
 ### Map of Restaurants in the Bronx by Inspection Grade
 
-```{r}
+```{r, message=FALSE}
 pal = colorFactor("viridis", NULL)
 
 addresses2_df %>%
@@ -95,7 +95,7 @@ addresses2_df %>%
 
 ### Average Most Recent Inspection Score by Cuisine Type in Manhattan
 
-```{r}
+```{r, message=FALSE}
 cuisinerating  %>%
 plot_ly(
     x = ~cuisine_description, y = ~avg_score, type = "scatter", mode = "markers",
@@ -107,7 +107,7 @@ plot_ly(
 
 ### Count of Inspection Grades Received by NYC Borough
 
-```{r}
+```{r, message=FALSE}
 gradeboro %>% 
   plot_ly(x = ~grade, y = ~count_grade, color = ~boro, type = "bar", colors = "viridis",
           facet_col = "boro") %>%
@@ -117,7 +117,7 @@ gradeboro %>%
 
 ### Inspection Grades Received Over Time Among Au Bon Pain Locations in Manhattan 
 
-```{r}
+```{r, message=FALSE}
 time  %>%
  plot_ly(
     x = ~inspection_date, y = ~score,
