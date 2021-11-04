@@ -44,6 +44,20 @@ restaurants_df %>%
   
 ```
 
+Filtering dataset to include only most recent inspection date and restaurants only in Manhattan. 
+```{r}
+data("rest_inspec")
+
+cuisinerating =
+  rest_inspec %>%
+  group_by(camis) %>%
+  slice(which.max(as.Date(inspection_date, "%Y-%m-%d", tz = "America/New_York"))) %>%
+  filter(boro == "MANHATTAN") %>%
+  drop_na(score) %>%
+  drop_na(grade)
+```
+
+
 
 
 
