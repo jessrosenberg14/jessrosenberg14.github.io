@@ -27,6 +27,17 @@ cuisinerating =
   filter(cuisine_description != "Not Listed/Not Applicable") %>%
   group_by(cuisine_description) %>%
   summarise(avg_score = round(mean(score),0))
+
+gradeboro =
+  rest_inspec %>%
+  group_by(camis) %>%
+  slice(which.max(as.Date(inspection_date, "%Y-%m-%d", tz = "America/New_York"))) %>%
+  filter(grade %in% c("A","B","C")) %>%
+  filter(boro != "Missing") %>%
+  drop_na(score) %>%
+  drop_na(grade) %>%
+  group_by(boro) %>%
+  count(grade, name = "count_grade")
 ```
 
 Column {data-width=650}
@@ -66,7 +77,13 @@ plot_ly(
 ### Chart C
 
 ```{r}
-
+gradeboro %>% 
+  plot_ly(x = ~grade, y = ~count_grade, color = ~boro, type = "bar", colors = "viridis",
+          facet_col = "boro") %>%
+  layout(title = list(text = "Count of Inspection Grades Received by Borough", 
+                        xanchor = 'center', yanchor =  'top', size = 8),
+           yaxis = list(title = list(text = "Count")), 
+           xaxis = list(title = list(text = "Grade")))
 ```
 
 ### Chart D
