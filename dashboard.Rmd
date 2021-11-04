@@ -90,7 +90,7 @@ addresses2_df %>%
 ```
 
 
-Column {data-width=350}
+{data-width=350}
 -----------------------------------------------------------------------
 
 ### Average Most Recent Inspection Score by Cuisine Type in Manhattan
