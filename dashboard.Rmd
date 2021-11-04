@@ -80,7 +80,7 @@ time =
 ```{r}
 pal = colorFactor("viridis", NULL)
 
-restaurants_df %>%
+addresses2_df %>%
   leaflet() %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
   addCircleMarkers(~long, ~lat, radius = 1, color = ~pal(grade), popup = ~restaurant_name) %>%
