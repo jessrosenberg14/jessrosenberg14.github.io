@@ -2,6 +2,7 @@
 title: "Plotly"
 output: 
   html_document:
+    code_folding: hide
 ---
 
 ```{r}
@@ -56,7 +57,7 @@ addresses2_df %>%
     opacity = 1)
 ```
 
-Filtering the dataset to include only restaurants in Manhatta and the most recent inspections by restaurant.
+Filtering the dataset to include only restaurants in Manhattan and the most recent inspections by restaurant.
 
 ```{r, message=FALSE}
 cuisinerating =
